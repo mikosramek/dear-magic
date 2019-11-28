@@ -4,10 +4,12 @@ import firebase from './firebase.js';
 import UserForm from './UserForm.js';
 
 import List from "./List.js";
+import ErrorMessage from './ErrorMessage.js';
 
 import './App.css';
 
 import logo from './assets/logo.svg'
+import './fonts/keyrune.ttf';
 
 
 const localFirebaseRef = 'user-ref';
@@ -20,7 +22,9 @@ class App extends React.Component {
       userIsLoggedIn: false,
       isSigningUp: false,
       userRef: '',
-      username: ''
+      username: '',
+      showError: false,
+      errorMessage: ''
     }
   }
   componentDidMount() {
@@ -36,7 +40,13 @@ class App extends React.Component {
     }
   }
 
-  
+  showTheUserAnError = (messageToShow) => {
+    this.setState({
+      showError: true,
+      errorMessage: messageToShow
+    });
+  }
+
   attemptLogin = (usernameToLoginWith) => {
     const dbRef = firebase.database().ref();
     dbRef.once('value', (db) => {
@@ -63,7 +73,7 @@ class App extends React.Component {
   }
 
   loginError = (usernameThatFailed) => {
-    alert(usernameThatFailed + " is not registered");
+    this.showTheUserAnError(usernameThatFailed + " is not registered!")
   }
 
   attemptSignup = (usernameToSignupWith) => {
@@ -82,7 +92,8 @@ class App extends React.Component {
   }
 
   signupError = (takenUsername) => {
-    alert("Oopsy doopsy thewe was a fucky wucky uwu! " + takenUsername + " is already taken owo!");
+    // alert("Oopsy doopsy thewe was a fucky wucky uwu! " + takenUsername + " is already taken owo!");
+    this.showTheUserAnError(takenUsername + " is already taken!");
   }
 
   signUserUp = (usernameToSignupWith) => {
@@ -112,29 +123,51 @@ class App extends React.Component {
   }
 
 
+  //Call back functions from the ErrorMessage component!
+  showError = (message) => {
+    this.showTheUserAnError(message);
+  }
+  hideError = () => {
+    this.setState({
+      showError: false
+    });
+  }
+
+
   render() {
     return(
       <div>
         <div className="wrapper">
           <header>
-              <div className="innerWrapper">
-              	<img className="logo" src={logo} alt="A wax seal." />
-              	<h1>Dear Magic</h1>
-              	<h2>A personal buylist</h2>
-              </div>
+            <div className="innerWrapper">
+              <img className="logo" src={logo} alt="A wax seal." />
+              <h1>Dear Magic</h1>
+              <h2>A personal buylist</h2>
+            </div>
           </header>
 
-          { 
-            this.state.userIsLoggedIn
-              ? <List account={this.state.userRef} username={this.state.username} logoutCallback={this.logUserOut} />
-              : this.state.isSigningUp
-                  ? <UserForm action="Signup" callback={this.attemptSignup}>
-                      <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">Already a user?</button>
-                    </UserForm>
-                  : <UserForm action="Login" callback={this.attemptLogin}>
-                      <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">Need an account?</button>
-                    </UserForm>
-          }
+          <main>
+            { 
+              this.state.showError
+                ? <ErrorMessage errorText={this.state.errorMessage} onEnd={this.hideError} />
+                : null
+            }
+            { 
+              this.state.userIsLoggedIn
+                ? <List account={this.state.userRef} username={this.state.username} logoutCallback={this.logUserOut} />
+                : this.state.isSigningUp
+                    ? <UserForm action="Signup" callback={this.attemptSignup} showError={this.showError}>
+                        <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
+                          Already a user?
+                        </button>
+                      </UserForm>
+                    : <UserForm action="Login" callback={this.attemptLogin}  showError={this.showError}>
+                        <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
+                          Need an account?
+                        </button>
+                      </UserForm>
+            }
+          </main>
 
         <footer>
             <p>mikosramek © 2019</p>

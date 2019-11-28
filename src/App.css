@@ -28,7 +28,6 @@ Call to Action: #C88080
 @import url('https://fonts.googleapis.com/css?family=Beth+Ellen|Patrick+Hand|Walter+Turncoat&display=swap');
 
 
-
 /* Global Styling */
 
 body {
@@ -102,6 +101,7 @@ h2 {
 
 main {
   padding: 25px 0;
+  position: relative;
 }
 
 /* Login / Signup Form Styling */ 
@@ -120,12 +120,28 @@ main {
   font-size: 2.2rem;
   position: relative;
 }
+.userWarning {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  color: #C88080;
+  opacity: 1;
+  transition: opacity 0.34s;
+
+  font-size: 2.2rem;
+  text-align: center;
+
+}
+.userWarningHidden {
+  opacity: 0;
+}
 .formDivider {
   height:1px;
   width: 90%;
   padding-top: 50px;
   border-bottom: 2px dashed #3B3B3B;
 }
+
 .userForm label {
   width: 70%;
   text-align: left;
@@ -193,15 +209,17 @@ h3 {
 
   border-bottom: 2px dashed #C88080;
 }
-
 .cardList li {
   border-bottom: 2px dashed #3B3B3B;
+}
+.cardList .cardHeader {
+  
   padding: 15px 0;
 
   display: flex;
   justify-content: space-between;
 }
-.cardList li span{
+.cardList .cardHeader span{
   cursor: pointer;
 }
 .showDescriptionButton {
@@ -211,10 +229,40 @@ h3 {
   font-size: 2rem;
 }
 
-.newCardFarm {
+.cardBody {
+  height: 0;
+  overflow: hidden;
+}
+.cardBody.show {
+  height: auto;
+}
+
+.newCardDiv {
+  width: 250px;
+  background-color: #FFFCF0;
+  font-size: 2rem;
+  min-height: 200px;
+
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+.newCardForm {
+  
   width: 250px;
+  padding: 15px; 
+
+  display: flex;
+  flex-direction: column;
+}
+
+.newCardForm button {
+  margin: 10px 0;
+}
+
+.newCardDiv p {
+  text-align: center;
 }
 
 /* Footer styling */
