@@ -27,6 +27,8 @@ Call to Action: #C88080
 
 @import url('https://fonts.googleapis.com/css?family=Beth+Ellen|Patrick+Hand|Walter+Turncoat&display=swap');
 
+
+
 /* Global Styling */
 
 body {
@@ -36,11 +38,27 @@ body {
 }
 button {
   cursor: pointer;
+  border: none;
+  background-color: #C88080;
+  color: #FFFCF0;
+
+  font-size: 1.5rem;
+}
+input {
+  border: none;
+  background-color: #CED1B9;
+  text-align: left;
 }
 .wrapper {
   background-color: #F5EDD2;
   min-height: 100vh;
 }
+
+.innerWrapper {
+  padding: 0 100px;
+}
+
+
 
 /* Header Styling */
 
@@ -48,36 +66,52 @@ header {
   padding: 25px 0;
   background-color: #F5EDD2;
   border-bottom: 2px dashed #3B3B3B;
+  position: relative;
 }
 
 h1 {
   margin: 0;
-  padding: 10px 100px;
+  padding: 10px 0px;
 
   font-size: 3.8rem;
   font-family: 'Beth Ellen', cursive;
+
+  position: relative;
+  z-index: 2;
 }
 
 h2 {
   padding-top: 10px;
-  padding-left: 205px;
+  padding-left: 105px;
   margin: 0;
 
   font-size: 2.2rem;
 }
 
+.logo {
+  width: 100px;
+
+  position: absolute;
+  top: 10px;
+  left: 75px;
+
+  z-index: 1;
+}
+
 /* Main Styling */
 
 main {
-  padding: 50px 0;
+  padding: 25px 0;
 }
 
 /* Login / Signup Form Styling */ 
+
 .userForm {
   width: 50%;
   max-width: 400px;
 
   margin: 0 auto;
+  padding: 50px 0;
 
   display: flex;
   flex-direction: column;
@@ -85,11 +119,11 @@ main {
 
   font-size: 2.2rem;
   position: relative;
-  /* background-color: red; */
 }
 .formDivider {
   height:1px;
   width: 90%;
+  padding-top: 50px;
   border-bottom: 2px dashed #3B3B3B;
 }
 .userForm label {
@@ -98,47 +132,89 @@ main {
 }
 .userForm input {
   width: 70%;
-  /* margin: 10px; */
   padding: 15px 5px;
   padding-left: 30px;
-  border: none;
-  background-color: #CED1B9;
-  text-align: left;
-  border-bottom: 2px dashed #3B3B3B;
-  /* font-family: 'Patrick Hand', sans-serif; */
 }
+.userForm input + span {
+  width: 0%;
+  position: relative;
+  bottom: 2px;
+
+  border-bottom: 2px dashed #3B3B3B;
+  transition: all 0.5s;
+}
+.userForm input:focus + span {
+  width: 70%;
+}
+
 .userForm img {
   position: absolute;
   left: 34px;
-  top: 24px;
+  top: 74px;
 }
 .userForm button {
   width: 50%;
-
-  padding: 10px 5px;
-  margin: 25px 0;
-
-  border: none;
-  background-color: #C88080;
-  color: #FFFCF0;
+  padding: 15px 5px;
+  margin: 25px 0;  
+}
+.userForm button:hover,
+.userForm button:focus {
+  background-color: #e49999;
 }
 .userForm button:active {
-  background-color: rgb(172, 100, 100);
+  background-color: #ac6464;
 }
 
-.userForm .userActionSwapButton {
-  background-color: #DCE8DA;
-  color: #3B3B3B;
-}
-.userForm .userActionSwapButton:active {
-  background-color: rgb(189, 201, 187);
-}
 
 /* Main List Styling */
 
+h3 {
+  font-size: 2.8rem;
+}
+
 .cardList {
-  padding: 0 100px;
+  padding: 0 10px;
   font-size: 2.2rem;
+}
+
+.bought {
+  opacity: 0.7;
+  position: relative;
+}
+.bought::after {
+  content: '';
+  display: block;
+  width: calc(100% - 30px);
+  height: 1px;
+
+  position: absolute;
+  bottom: 40%;
+  left: 30px;
+
+  border-bottom: 2px dashed #C88080;
+}
+
+.cardList li {
+  border-bottom: 2px dashed #3B3B3B;
+  padding: 15px 0;
+
+  display: flex;
+  justify-content: space-between;
+}
+.cardList li span{
+  cursor: pointer;
+}
+.showDescriptionButton {
+  background: none;
+  border: none;
+  color: #3B3B3B;
+  font-size: 2rem;
+}
+
+.newCardFarm {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
 }
 
 /* Footer styling */

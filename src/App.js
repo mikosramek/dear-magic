@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import firebase from './firebase.js';
 import UserForm from './UserForm.js';
 
@@ -8,8 +7,11 @@ import List from "./List.js";
 
 import './App.css';
 
+import logo from './assets/logo.svg'
 
-const localRef = 'user-ref';
+
+const localFirebaseRef = 'user-ref';
+const localUsernameRef = 'user-name';
 
 class App extends React.Component {
   constructor() {
@@ -23,47 +25,67 @@ class App extends React.Component {
   }
   componentDidMount() {
     //Check if the user has a localstorage for thing
-    const localUserRef = localStorage.getItem(localRef);
+    const localUserRef = localStorage.getItem(localFirebaseRef);
+    const localUsername = localStorage.getItem(localUsernameRef);
     if(localUserRef !== null) {
       this.setState({
         userIsLoggedIn: true,
-        userRef: localUserRef
+        userRef: localUserRef,
+        username: localUsername ? localUsername : ''
       })
     }
   }
 
   
-  //TO DO: REFACTOR THIS SO IT IS 2 SEPERATE AND CLEAR FUNCTIONS
-  //ALSO MAYBE STORE THE USERNAME SO IT CAN BE USED IN THE LIST ????
-  doesDatabaseContainUsername = (username, itDoesCallback, itDoesNotCallback) => {
+  attemptLogin = (usernameToLoginWith) => {
     const dbRef = firebase.database().ref();
     dbRef.once('value', (db) => {
       const userbase = db.val();
       for(let index in userbase){
-        if(username === userbase[index].username){
-          itDoesCallback(true, index);
+        if(usernameToLoginWith === userbase[index].username){
+          this.userHasLoggedIn(index, usernameToLoginWith);
           return;
         }
       }
-      itDoesNotCallback(false, username);
+      //The account doesn't exist
+      this.loginError(usernameToLoginWith);
     })
   }
 
-  attemptLogin = (usernameToLoginWith) => {
-    this.doesDatabaseContainUsername(usernameToLoginWith, this.userHasLoggedIn, this.accountError);
-  }
-  userHasLoggedIn = (loggedIn, userReference) => {
+  userHasLoggedIn = (userReference, loggedInUsername) => {
     this.setState({
       userRef: userReference,
-      userIsLoggedIn: loggedIn
+      userIsLoggedIn: true,
+      username: loggedInUsername
     });
-    localStorage.setItem(localRef, userReference);
+    localStorage.setItem(localFirebaseRef, userReference);
+    localStorage.setItem(localUsernameRef, loggedInUsername);
+  }
+
+  loginError = (usernameThatFailed) => {
+    alert(usernameThatFailed + " is not registered");
   }
 
   attemptSignup = (usernameToSignupWith) => {
-    this.doesDatabaseContainUsername(usernameToSignupWith, this.accountError, this.userCanSignUp);
+    const dbRef = firebase.database().ref();
+    dbRef.once('value', (db) => {
+      const userbase = db.val();
+      for(let index in userbase){
+        if(usernameToSignupWith === userbase[index].username){
+          //The account already exists
+          this.signupError(usernameToSignupWith);
+          return;
+        }
+      }
+      this.signUserUp(usernameToSignupWith);
+    })
   }
-  userCanSignUp = (throwaway, usernameToSignupWith) => {
+
+  signupError = (takenUsername) => {
+    alert("Oopsy doopsy thewe was a fucky wucky uwu! " + takenUsername + " is already taken owo!");
+  }
+
+  signUserUp = (usernameToSignupWith) => {
     const newUser = {
       username: usernameToSignupWith,
       // This is only to show object structure (firebase won't recognize it as a thing)
@@ -74,20 +96,13 @@ class App extends React.Component {
     alert("Signup Success!");
   }
 
-
   logUserOut = () => {
-    localStorage.removeItem(localRef);
+    localStorage.removeItem(localFirebaseRef);
     this.setState({
       userRef: '',
       userIsLoggedIn: false
     });
   }
-
-  accountError = (throwaway, takenUsername) => {
-    console.log(takenUsername, " - error");
-    alert("Oops thewe was a fucky wucky! uwu");
-  }
-
 
 
   swapIsSigningUp = () => {
@@ -97,44 +112,28 @@ class App extends React.Component {
   }
 
 
-  addNewCard = (cardName, cardQuantity) => {
-    const newCard = {
-      name: cardName,
-      quantity: cardQuantity,
-      bought: false
-    }
-    const userCardsRef = firebase.database().ref(`${this.state.userRef}/cards`);
-    userCardsRef.once('value', (data) => {
-      //create new array based on data.cards
-      //and then set the data value back to it
-
-      //If there isn't an array, give it a new array
-      //If there is one, spread it and add the new card
-      let newCardArray;
-      if(data.val() === null){
-        newCardArray = [newCard];
-      }else{
-        newCardArray = [...data.val(), newCard];
-      }
-      userCardsRef.set(newCardArray);
-    });
-  }
-
   render() {
     return(
       <div>
         <div className="wrapper">
           <header>
-              <h1>Dear Magic</h1>
-              <h2>A personal buylist</h2>
+              <div className="innerWrapper">
+              	<img className="logo" src={logo} alt="A wax seal." />
+              	<h1>Dear Magic</h1>
+              	<h2>A personal buylist</h2>
+              </div>
           </header>
 
           { 
             this.state.userIsLoggedIn
-              ? <List account={this.state.userRef} username={this.state.userRef} logoutCallback={this.logUserOut} newCardCallback={this.addNewCard} />
+              ? <List account={this.state.userRef} username={this.state.username} logoutCallback={this.logUserOut} />
               : this.state.isSigningUp
-                  ? <UserForm action="Signup" callback={this.attemptSignup}><button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">Already a user?</button></UserForm>
-                  : <UserForm action="Login" callback={this.attemptLogin}><button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">Create Account</button></UserForm>
+                  ? <UserForm action="Signup" callback={this.attemptSignup}>
+                      <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">Already a user?</button>
+                    </UserForm>
+                  : <UserForm action="Login" callback={this.attemptLogin}>
+                      <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">Need an account?</button>
+                    </UserForm>
           }
 
         <footer>
