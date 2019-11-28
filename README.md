@@ -1,4 +1,10 @@
+# Dear Magic
+## a personal buylist
+
+A simple project created by Miko Sramek for the Juno College bootcamp.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+It also uses firebase for a user database, and axios for making api calls.
 
 ## Available Scripts
 
