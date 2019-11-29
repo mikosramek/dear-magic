@@ -10,11 +10,35 @@ class Card extends React.Component {
   componentDidMount() {
     
   }
+
+  getColorIdentity = (colors) => {
+    let identity = '';
+    // colors.forEach((item) => {
+    //   identity += item;
+    // });
+    if(colors.includes('W')){
+      identity += 'W';
+    }
+    if(colors.includes('U')){
+      identity += 'U';
+    }
+    if(colors.includes('B')){
+      identity += 'B';
+    }
+    if(colors.includes('R')){
+      identity += 'R';
+    }
+    if(colors.includes('G')){
+      identity += 'G';
+    }
+    if(identity === ''){
+      identity += 'Colorless'
+    }
+    return identity;
+  }
+
   render() {
     const { bought, name, quantity, identity, rarity, sets } = this.props.card;
-    console.log(identity);
-    console.log(rarity);
-    console.log(sets);
     return(
       <li>
         <div className="cardHeader">
@@ -30,17 +54,21 @@ class Card extends React.Component {
         	</ button>
         </div>
         <div className={`cardBody ${this.state.expandDescription ? 'show' : 'hide'}`}>
+          <p>
+            {
+              sets.map((set) => {
+                return  <i key={name+set} className={`ss ss-${set.toLowerCase()} ss-${rarity.toLowerCase()}`}></i> 
+              })
+            }
+          </p>
+          <p>
+            {
+              this.getColorIdentity(identity)
+            }
+          </p>
           <p>{rarity}</p>
-          {
-            identity.map((color) => {
-              return <p>{color}</p>
-            })
-          }
-          {
-            sets.map((set) => {
-              return  <i className={`ss ss-${set.toLowerCase()} ss-${rarity.toLowerCase()}`}></i> 
-            })
-          }
+          
+          
 
         </div>
       </li>

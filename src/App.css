@@ -211,10 +211,13 @@ h3 {
 }
 .cardList li {
   border-bottom: 2px dashed #3B3B3B;
+   
+  padding: 10px 0;
+  padding-bottom: 10px;
 }
 .cardList .cardHeader {
   
-  padding: 15px 0;
+  padding-bottom: 10px;
 
   display: flex;
   justify-content: space-between;
@@ -230,11 +233,21 @@ h3 {
 }
 
 .cardBody {
-  height: 0;
+  /* display: none; */
+  /* transform-origin: top;
+  transform: scaleY(0); */
+  height: 0px;
   overflow: hidden;
+
+  /* transition: max-height 1s linear; */
 }
 .cardBody.show {
+  /* display: block; */
+  /* transform: scaleY(1); */
   height: auto;
+}
+.cardBody p {
+  margin: 0;
 }
 
 .newCardDiv {

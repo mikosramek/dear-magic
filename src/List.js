@@ -36,49 +36,69 @@ class List extends React.Component {
     this.setState({
       gettingCardDetails: true
     });
+    
     if(this.state.newCard !== ''){    
+      //
       axios({
         method: 'GET',
-        url: 'https://api.magicthegathering.io/v1/cards',
+        url: 'https://api.scryfall.com/cards/named',
         dataResponse: 'json',
         params: {
-          name:this.state.newCard,
-          pageSize: 1
+          fuzzy:this.state.newCard,
         }
       }).then( (result) => {
-        console.log(result);
-        this.addNewCard(result.data.cards[0]);
-        this.setState({
-          gettingCardDetails: false
+        //color_identity
+        //multiverse_ids[0] -> hand off
+        //name
+        //prices
+        //rarity
+        axios({
+          method: 'GET',
+          url: 'https://api.magicthegathering.io/v1/cards/'+result.data.multiverse_ids[0],
+          dataResponse: 'json'
+        }).then( (thegathering) => {
+          const newCard = {
+            name: result.data.name,
+            quantity: this.state.newCardQuantity,
+            rarity: result.data.rarity,
+            identity: result.data.color_identity,
+            sets: thegathering.data.card.printings,
+            prices: result.data.prices,
+            bought: false
+          }
+          if(newCard.sets.length === 0){
+            newCard.sets = ['No recorded sets.']
+          }
+          if(newCard.identity.length === 0) {
+            newCard.identity = ['Colorless']
+          }
+          this.addNewCard(newCard);
+          this.setState({
+            gettingCardDetails: false
+          });
+        }).catch( (error) => {
+          
         });
       }).catch( (error) => {
         
       });
-      
     }else{
       //SCREAM AT THE USER
     }
   }
 
   addNewCard = (card) => {
-    const newCard = {
-      name: card.name,
-      quantity: this.state.newCardQuantity,
-      rarity: card.rarity,
-      identity: card.colorIdentity,
-      sets: card.printings,
-      bought: false
-    }
-    console.log(newCard);
+    
+    
     const userCardsRef = firebase.database().ref(`${this.props.account}/cards`);
     userCardsRef.once('value', (data) => {
       //If there isn't an array, give it a new array
       //If there is one, spread it and add the new card
       let newCardArray;
       if(data.val() === null){
-        newCardArray = [newCard];
+        newCardArray = [card];
       }else{
-        newCardArray = [...data.val(), newCard];
+        newCardArray = [...data.val(), card];
       }
       userCardsRef.set(newCardArray);
     });
