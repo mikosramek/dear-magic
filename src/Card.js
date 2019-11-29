@@ -1,5 +1,7 @@
 import React from 'react';
 
+import cardSets from './assets/sets.json';
+
 class Card extends React.Component {
   constructor() {
     super();
@@ -13,9 +15,7 @@ class Card extends React.Component {
 
   getColorIdentity = (colors) => {
     let identity = '';
-    // colors.forEach((item) => {
-    //   identity += item;
-    // });
+    //A brute force thing to make sure the colour identity is in WUBRG order. (It's an MTG thing)
     if(colors.includes('W')){
       identity += 'W';
     }
@@ -37,8 +37,17 @@ class Card extends React.Component {
     return identity;
   }
 
+  getPrices = (prices) => {
+    const result = [];
+    for(let key in prices){
+      result.push(key + ": " + prices[key] +' ');
+    }
+    return result;
+  }
+
   render() {
-    const { bought, name, quantity, identity, rarity, sets } = this.props.card;
+    const { bought, name, quantity, identity, rarity, sets, latestSet, prices } = this.props.card;
+    // console.log(prices);
     return(
       <li>
         <div className="cardHeader">
@@ -48,27 +57,34 @@ class Card extends React.Component {
         	>
         	  {bought ? <i className='far fa-check-square'></i> : <i className='far fa-square'></i>} {quantity}x {name}
         	</ span>
-        
+          <p><i className={`ss ss-${latestSet.toLowerCase()} ss-${rarity.toLowerCase()}`}></i> {cardSets[latestSet.toUpperCase()]}</p>
         	<button className="showDescriptionButton" onClick={() => this.setState({expandDescription: !this.state.expandDescription})}>
         	  <i className={`fas fa-chevron-${this.state.expandDescription ? 'up' : 'down'}`}></i>   
         	</ button>
+
         </div>
         <div className={`cardBody ${this.state.expandDescription ? 'show' : 'hide'}`}>
-          <p>
-            {
-              sets.map((set) => {
-                return  <i key={name+set} className={`ss ss-${set.toLowerCase()} ss-${rarity.toLowerCase()}`}></i> 
-              })
-            }
-          </p>
           <p>
             {
               this.getColorIdentity(identity)
             }
           </p>
           <p>{rarity}</p>
-          
-          
+          {
+            this.getPrices(prices).map((item) => {
+              return <p>{item}</p>
+            })
+          }
+          {
+            sets.map( (set) => {
+              // return  <i key={name+set} className={`ss ss-${set.toLowerCase()} ss-${rarity.toLowerCase()}`}></i> 
+              return (
+              (cardSets[set] !== undefined)
+                ? <p key={name+set}><i className={`ss ss-${set.toLowerCase()} ss-${rarity.toLowerCase()}`}></i> {cardSets[set]}</p>
+                : null  
+              )
+            })
+          }
 
         </div>
       </li>

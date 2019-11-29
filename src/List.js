@@ -12,6 +12,7 @@ class List extends React.Component {
       cards:[],
       newCard: '',
       newCardQuantity: 1,
+      isShowingNewCardForm: false,
       gettingCardDetails: false
     }
   }
@@ -52,17 +53,20 @@ class List extends React.Component {
         //name
         //prices
         //rarity
+        console.log("Scryfall has gotten back!");
         axios({
           method: 'GET',
           url: 'https://api.magicthegathering.io/v1/cards/'+result.data.multiverse_ids[0],
-          dataResponse: 'json'
+          dataResponse: 'jsonp'
         }).then( (thegathering) => {
+          console.log("magicthegathering.io has gotten back!");
           const newCard = {
             name: result.data.name,
             quantity: this.state.newCardQuantity,
             rarity: result.data.rarity,
             identity: result.data.color_identity,
             sets: thegathering.data.card.printings,
+            latestSet: result.data.set,
             prices: result.data.prices,
             bought: false
           }
@@ -126,22 +130,21 @@ class List extends React.Component {
     cardsRef.set(filteredCards);
   }
 
+  toggleIsShowingNewCardForm = () => {
+    this.setState({
+      isShowingNewCardForm: !this.state.isShowingNewCardForm
+    })
+  }
+
   render() {
     return(
       <div className="innerWrapper">
         <h3>Hi, {this.props.username}! Here is your list:</h3>
-        <ul className="cardList">
-          {
-            this.state.cards !== undefined && this.state.cards.length > 0
-              ? this.state.cards.map((item, index) => {
-                return(
-                  <Card key={index} checkOff={() => this.updateCardToBought(index)} card={item}/>
-                )
-              })
-              : <li className="placeholderCard">Add cards by pressing the + icon!</li>
-          }
-        </ul>
-        <div className="newCardDiv">
+
+        <div className={`newCardMenuButton ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
+          <button onClick={this.toggleIsShowingNewCardForm}><i className='fas fa-times'></i></button>
+        </div>
+        <div className={`newCardDiv ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
         	{
         	  this.state.gettingCardDetails
         	    ? <p>Fetching card data</p>
@@ -164,6 +167,19 @@ class List extends React.Component {
         	      </form>
         	}
         </div>
+
+        <ul className="cardList">
+          {
+            this.state.cards !== undefined && this.state.cards.length > 0
+              ? this.state.cards.map((item, index) => {
+                return(
+                  <Card key={index} checkOff={() => this.updateCardToBought(index)} card={item}/>
+                )
+              })
+              : <li className="placeholderCard">Add cards by pressing the + icon!</li>
+          }
+        </ul>
+        
         <button onClick={this.removeBoughtCards}>Archive Bought Cards</button>
         <button onClick={this.props.logoutCallback}>Log Out</button>
       </div>
