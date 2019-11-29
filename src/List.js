@@ -4,6 +4,7 @@ import 'firebase/database';
 import axios from 'axios';
 
 import Card from './Card.js';
+import ErrorMessage from './ErrorMessage.js';
 
 class List extends React.Component {
   constructor() {
@@ -13,7 +14,9 @@ class List extends React.Component {
       newCard: '',
       newCardQuantity: 1,
       isShowingNewCardForm: false,
-      gettingCardDetails: false
+      gettingCardDetails: false,
+      showApiError: false,
+      errorMessage: ''
     }
   }
   componentDidMount() {
@@ -47,7 +50,7 @@ class List extends React.Component {
         params: {
           fuzzy:this.state.newCard,
         },
-        timeout: 5000,
+        timeout: 10000,
       }).then( (result) => {
         //color_identity
         //multiverse_ids[0] -> hand off
@@ -57,7 +60,6 @@ class List extends React.Component {
 
         //foil
         //image_uris.small
-        console.log(result.data);
 
         //Make another call to get all the printings of the card
         axios({
@@ -105,6 +107,7 @@ class List extends React.Component {
           this.handleError(error);
         });
       }).catch( (error) => {
+        //General card is not found!
         this.handleError(error);
       });
     }else{
@@ -117,9 +120,10 @@ class List extends React.Component {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
+      // console.log(error.response.data);
+      // console.log(error.response.status);
+      // console.log(error.response.headers);
+      this.showTheUserAnError(error.response.data.details);
     } else if (error.request) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -128,13 +132,24 @@ class List extends React.Component {
     } else {
       // Something happened in setting up the request that triggered an Error
       console.log('Error', error.message);
+      this.showTheUserAnError(error.message);
     }
-    console.log(error.config);
+  }
+  showTheUserAnError = (messageToShow) => {
+    this.setState({
+      showApiError: true,
+      errorMessage: messageToShow
+    });
+  }
+  hideError = () => {
+    this.setState({
+      showApiError: false,
+      errorMessage: '',
+      gettingCardDetails: false
+    });
   }
 
   addNewCard = (card) => {
-    
-    
     const userCardsRef = firebase.database().ref(`${this.props.account}/cards`);
     userCardsRef.once('value', (data) => {
       //If there isn't an array, give it a new array
@@ -186,24 +201,25 @@ class List extends React.Component {
           <button onClick={this.toggleIsShowingNewCardForm}><i className='fas fa-times'></i></button>
         </div>
         <div className={`newCardDiv ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
+          
+          
         	{
         	  this.state.gettingCardDetails
-        	    ? <p>Fetching card data</p>
+        	    ? this.state.showApiError
+                  ? <ErrorMessage errorText={this.state.errorMessage} onEnd={this.hideError} />
+                  : <p>Fetching card data</p>
         	    : <form onSubmit={this.queryNewCard} className="newCardForm">
-              
         	        <label htmlFor="newCardName">Card name:</label>
         	        <input type="text" id="newCardName" 
         	          value={this.state.newCard} 
         	          onChange={(e) => this.setState({newCard:e.target.value})} 
         	        />
-              
         	        <label htmlFor="newCardQuantity">How many:</label>
         	        <input type="number" id="newCardQuantity" 
         	          value={this.state.newCardQuantity} 
         	          onChange={(e) => this.setState({newCardQuantity:e.target.value})}
         	          min="1" max="1337"  
         	        />
-
         	        <button>Add Card</button>
         	      </form>
         	}
