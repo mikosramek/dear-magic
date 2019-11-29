@@ -46,49 +46,90 @@ class List extends React.Component {
         dataResponse: 'json',
         params: {
           fuzzy:this.state.newCard,
-        }
+        },
+        timeout: 5000,
       }).then( (result) => {
         //color_identity
         //multiverse_ids[0] -> hand off
         //name
         //prices
         //rarity
-        console.log("Scryfall has gotten back!");
+
+        //foil
+        //image_uris.small
+        console.log(result.data);
+
+        //Make another call to get all the printings of the card
         axios({
           method: 'GET',
-          url: 'https://api.magicthegathering.io/v1/cards/'+result.data.multiverse_ids[0],
-          dataResponse: 'jsonp'
-        }).then( (thegathering) => {
-          console.log("magicthegathering.io has gotten back!");
+          url: result.data.prints_search_uri,
+          dataResponse: 'json',
+        }).then( (cardSets) => {
+          //Throw it into a variable
+          const arrayOfSets = cardSets.data.data;
+
+          //Push it into an array, and make sure there aren't any duplicates
+          const printings = [];
+          arrayOfSets.forEach((card) => {
+            if(!printings.includes(card.set)){
+              printings.push(card.set);
+            }
+          });
+          //Create the card object to throw at firebase
           const newCard = {
             name: result.data.name,
             quantity: this.state.newCardQuantity,
             rarity: result.data.rarity,
             identity: result.data.color_identity,
-            sets: thegathering.data.card.printings,
+            sets: printings,
             latestSet: result.data.set,
             prices: result.data.prices,
+            hasFoil: result.data.foil,
+            imgUrl: result.data.image_uris.small,
             bought: false
           }
+          //If the sets or identity are 0 (if the api doesn't have them or they're colorless), create a dummy array so firebase doesn't delete it
           if(newCard.sets.length === 0){
             newCard.sets = ['No recorded sets.']
           }
           if(newCard.identity.length === 0) {
             newCard.identity = ['Colorless']
           }
+          //Pass the data to the function
           this.addNewCard(newCard);
+          //Show the form for user submition once again
           this.setState({
             gettingCardDetails: false
           });
         }).catch( (error) => {
-          
+          this.handleError(error);
         });
       }).catch( (error) => {
-        
+        this.handleError(error);
       });
     }else{
       //SCREAM AT THE USER
     }
+  }
+
+  //IF statements from axios docs
+  handleError = (error) => {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log('Error', error.message);
+    }
+    console.log(error.config);
   }
 
   addNewCard = (card) => {
