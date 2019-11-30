@@ -63,7 +63,7 @@ class Card extends React.Component {
         <div className="cardHeader">
         	<span 
         	  onClick={this.props.checkOff}
-        	  className = {bought ? 'bought' : ''}
+        	  className = {`${bought ? 'bought' : ''} cardName`}
         	>
         	  {bought ? <i className='far fa-check-square'></i> : <i className='far fa-square'></i>} {quantity}x {name}
             <i className={`ss ss-${latestSet.toLowerCase()} ss-${rarity.toLowerCase()}`}></i>

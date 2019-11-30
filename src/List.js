@@ -237,7 +237,7 @@ class List extends React.Component {
     return(
       <div className="innerWrapper">
         <h3>Hi, {this.props.username}! Here is your list:</h3>
-
+        <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
         <div className={`newCardMenuButton ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
           <button onClick={this.toggleIsShowingNewCardForm}><i className='fas fa-times' aria-label=""></i></button>
         </div>
@@ -273,7 +273,7 @@ class List extends React.Component {
 
 
 
-        <div className={`infoPanelButton ${this.state.isShowingListInfo ? 'show' : ''}`}>
+        <div className={`infoPanelButton ${this.state.isShowingListInfo ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''}`}>
           <button onClick={this.toggleIsShowingListInfo}><i className="fas fa-receipt" aria-label=""></i></button>
         </div>
         <div className={`infoPanel ${this.state.isShowingListInfo ? 'show' : ''}`}>
@@ -315,8 +315,6 @@ class List extends React.Component {
           }
         </ul> {/* End of Card List */}
         
-        
-        <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
       </div> /* End of Inner Wrapper */
     );
   }
