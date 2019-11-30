@@ -470,6 +470,10 @@ h3 {
   text-align: center;
 }
 
+.newCardDiv .userWarning p{
+  background-color: #FFFCF0;
+}
+
 /* Clear Bought Cards Menu */
 
 .clearBoughtButton {
@@ -548,6 +552,9 @@ footer p {
   .infoPanelButton.show button {
     top: 6px;
     right: 6px;
+  }
+  .newCardDiv .userWarning p{
+    background-color: #F5EDD2;
   }
 }
 
