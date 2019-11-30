@@ -2,6 +2,8 @@ import React from 'react';
 
 import cardSets from './assets/sets.json';
 import sparkle from './assets/2728_color.svg';
+
+
 class Card extends React.Component {
   constructor() {
     super();
@@ -39,14 +41,21 @@ class Card extends React.Component {
 
   getPrice = (prices) => {
     const result = [];
-    result.push("$"+prices.usd+" USD")
-    // for(let key in prices){
-    //   result.push(key + ": " + prices[key] +' ');
-    // }
+    if(prices.usd !== undefined){
+      result.push("$"+prices.usd+" USD");
+    } else {
+      result.push("No price info found.");
+    }
     return result;
+  }
+  capitalizeWord = (word) => {
+    let newWord = word.substring(0,1).toUpperCase() + word.substring(1, word.length);
+    // console.log(newWord);
+    return newWord;
   }
 
   render() {
+    // this.capitalizeWord('hello');
     const { bought, name, quantity, identity, rarity, sets, latestSet, prices, imgUrl, hasFoil } = this.props.card;
     // console.log(prices);
     return(
@@ -83,7 +92,7 @@ class Card extends React.Component {
                   this.getColorIdentity(identity)
                 }
               </p>
-              <p>{rarity}</p>
+              <p>{this.capitalizeWord(rarity)}</p>
               {
                 this.getPrice(prices).map((item) => {
                   return <p key={item}>{item}</p>

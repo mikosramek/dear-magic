@@ -1,10 +1,13 @@
+//Import required modules
 import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import axios from 'axios';
 
+//Import Components
 import Card from './Card.js';
 import ErrorMessage from './ErrorMessage.js';
+import ListInfo from './ListInfo.js';
 
 class List extends React.Component {
   constructor() {
@@ -17,9 +20,19 @@ class List extends React.Component {
       gettingCardDetails: false,
       showApiError: false,
       errorMessage: '',
-      isConfirmingArchive: false
+      isConfirmingArchive: false,
+      isConfirmingDeletion: false,
+      isShowingListInfo: false
     }
+    this.textInput = React.createRef();
   }
+
+  //Focus code found from
+  //https://stackoverflow.com/questions/43145549/how-react-programmatically-focus-input
+  focusOnCardInput = () => {
+    this.textInput.current.focus();
+  }
+
   componentDidMount() {
     const userRef = firebase.database().ref(this.props.account);
     userRef.on('value', (account) => {
@@ -104,6 +117,7 @@ class List extends React.Component {
           this.setState({
             gettingCardDetails: false
           });
+          this.focusOnCardInput();
         }).catch( (error) => {
           this.handleError(error);
         });
@@ -148,6 +162,7 @@ class List extends React.Component {
       errorMessage: '',
       gettingCardDetails: false
     });
+    this.focusOnCardInput();
   }
 
   addNewCard = (card) => {
@@ -185,19 +200,38 @@ class List extends React.Component {
       return !card.bought
     });
     cardsRef.set(filteredCards);
+    this.toggleIsConfirmingArchive();
+  }
+
+  removeAllCards = () => {
+    const cardsRef = firebase.database().ref(this.props.account).child(`cards`);
+    cardsRef.set([]);
+    this.toggleIsConfirmingDeletion();
   }
 
   toggleIsShowingNewCardForm = () => {
     this.setState({
       isShowingNewCardForm: !this.state.isShowingNewCardForm
-    })
+    });
+    this.focusOnCardInput();
   }
 
-  toggleisConfirmingArchive = () => {
+  toggleIsConfirmingArchive = () => {
     this.setState({
       isConfirmingArchive: !this.state.isConfirmingArchive
-    })
+    });
   }
+  toggleIsShowingListInfo = () => {
+    this.setState({
+      isShowingListInfo: !this.state.isShowingListInfo
+    });
+  }
+  toggleIsConfirmingDeletion = () => {
+    this.setState({
+      isConfirmingDeletion: !this.state.isConfirmingDeletion
+    });
+  }
+  
 
   render() {
     return(
@@ -207,6 +241,7 @@ class List extends React.Component {
         <div className={`newCardMenuButton ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
           <button onClick={this.toggleIsShowingNewCardForm}><i className='fas fa-times' aria-label=""></i></button>
         </div>
+        {/* Start of New Card Div */}
         <div className={`newCardDiv ${this.state.isShowingNewCardForm ? 'show' : ''}`}>  
         	{
             //Is the api call being made?
@@ -219,7 +254,8 @@ class List extends React.Component {
         	        <label htmlFor="newCardName">Card name:</label>
         	        <input type="text" id="newCardName" 
         	          value={this.state.newCard} 
-        	          onChange={(e) => this.setState({newCard:e.target.value})} 
+                    onChange={(e) => this.setState({newCard:e.target.value})} 
+                    ref={this.textInput}
         	        />
                   <span></span>
         	        <label htmlFor="newCardQuantity">How many:</label>
@@ -232,22 +268,40 @@ class List extends React.Component {
         	        <button>Add Card</button>
         	      </form>
         	}
+        </div> {/* End of New Card Div */}
+
+
+
+
+        <div className={`infoPanelButton ${this.state.isShowingListInfo ? 'show' : ''}`}>
+          <button onClick={this.toggleIsShowingListInfo}><i className="fas fa-receipt" aria-label=""></i></button>
         </div>
-        <div 
-          className={`clearBoughtButton ${this.state.isConfirmingArchive ? 'clearBoughtConfirming' : ''}`} 
-        >
-          {
-            this.state.isConfirmingArchive 
-              ? <button onClick={this.toggleisConfirmingArchive}><i className="fas fa-times-circle" aria-label="Cancel clearing bought cards."></i></button>
-              : <button onClick={this.toggleisConfirmingArchive}>Clear Bought</button>
-          }
-          <button 
-            onClick={this.removeBoughtCards} 
-            className={`confirmClearButton ${this.state.isConfirmingArchive ? 'show' : ''}`}
-          >
-            <i className="fas fa-check-circle" aria-label="Confirm clearing bought cards."></i>
-          </button>
+        <div className={`infoPanel ${this.state.isShowingListInfo ? 'show' : ''}`}>
+          <ListInfo cards={this.state.cards}  />
+          <div className={`clearBoughtButton ${this.state.isConfirmingArchive ? 'clearBoughtConfirming' : ''}`}>
+            {
+              this.state.isConfirmingArchive 
+                ? <>
+                    <p>Clear bought cards?</p>
+                    <button onClick={this.removeBoughtCards} className={`confirmClearButton ${this.state.isConfirmingArchive ? 'show' : ''}`}><i className="fas fa-check-circle" aria-label="Confirm clearing bought cards."></i></button>
+                    <button onClick={this.toggleIsConfirmingArchive}><i className="fas fa-times-circle" aria-label="Cancel clearing bought cards."></i></button>
+                  </>
+                : <button onClick={this.toggleIsConfirmingArchive}>Clear Bought</button>
+            }
+          </div> {/* End of Clearing Bought Cards Div */}
+          <div className={`clearBoughtButton ${this.state.isConfirmingDeletion ? 'clearBoughtConfirming' : ''}`}>
+            {
+              this.state.isConfirmingDeletion 
+                ? <>
+                    <p>Clear all cards?</p>
+                    <button onClick={this.removeAllCards} className={`confirmClearButton ${this.state.isConfirmingDeletion ? 'show' : ''}`}><i className="fas fa-check-circle" aria-label="Confirm clearing bought cards."></i></button>
+                    <button onClick={this.toggleIsConfirmingDeletion}><i className="fas fa-times-circle" aria-label="Cancel clearing bought cards."></i></button>
+                  </>
+                : <button onClick={this.toggleIsConfirmingDeletion}>Clear All</button>
+            }
+          </div> {/* End of Clearing All Cards Div */}
         </div>
+        
 
         <ul className="cardList">
           {
@@ -259,11 +313,11 @@ class List extends React.Component {
               })
               : <li className="placeholderCard">Add cards by pressing the + icon!</li>
           }
-        </ul>
+        </ul> {/* End of Card List */}
         
         
-        <button onClick={this.props.logoutCallback}>Log Out</button>
-      </div>
+        <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
+      </div> /* End of Inner Wrapper */
     );
   }
 };
