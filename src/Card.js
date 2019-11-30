@@ -1,7 +1,7 @@
 import React from 'react';
 
 import cardSets from './assets/sets.json';
-
+import sparkle from './assets/2728_color.svg';
 class Card extends React.Component {
   constructor() {
     super();
@@ -37,7 +37,7 @@ class Card extends React.Component {
     return identity;
   }
 
-  getPrices = (prices) => {
+  getPrice = (prices) => {
     const result = [];
     result.push("$"+prices.usd+" USD")
     // for(let key in prices){
@@ -61,29 +61,36 @@ class Card extends React.Component {
         	</ span>
           
         	<button className="showDescriptionButton" onClick={() => this.setState({expandDescription: !this.state.expandDescription})}>
-        	  <i className={`fas fa-chevron-${this.state.expandDescription ? 'up' : 'down'}`}></i>   
+        	  <i className={`fas fa-chevron-${this.state.expandDescription ? 'up' : 'down'}`} aria-label={`Expand the description for ${name}`}></i>   
         	</ button>
 
         </div>
         <div className={`cardBody ${this.state.expandDescription ? 'show' : 'hide'}`}>
           { 
             hasFoil
-              ? <i className='fab fa-snapchat-ghost'></i>
+              ? <div className="foilMark"><img src={sparkle} alt="This card has a foil version available."/></div>
               : null
           }
           
-          <img src={imgUrl} alt={name}/>
-          <p>
-            {
-              this.getColorIdentity(identity)
-            }
-          </p>
-          <p>{rarity}</p>
-          {
-            this.getPrices(prices).map((item) => {
-              return <p key={item}>{item}</p>
-            })
-          }
+         
+          <div className="cardDetails">
+            <div className="cardImage">
+              <img src={imgUrl} alt={`The card for ${name}`}/>
+            </div>
+            <div className="cardText">
+              <p>
+                {
+                  this.getColorIdentity(identity)
+                }
+              </p>
+              <p>{rarity}</p>
+              {
+                this.getPrice(prices).map((item) => {
+                  return <p key={item}>{item}</p>
+                })
+              }
+            </div>
+          </div>
           {
             sets.map( (set) => {
               // return  <i key={name+set} className={`ss ss-${set.toLowerCase()} ss-${rarity.toLowerCase()}`}></i> 

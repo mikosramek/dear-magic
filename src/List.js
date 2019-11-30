@@ -16,7 +16,8 @@ class List extends React.Component {
       isShowingNewCardForm: false,
       gettingCardDetails: false,
       showApiError: false,
-      errorMessage: ''
+      errorMessage: '',
+      isConfirmingArchive: false
     }
   }
   componentDidMount() {
@@ -192,19 +193,25 @@ class List extends React.Component {
     })
   }
 
+  toggleisConfirmingArchive = () => {
+    this.setState({
+      isConfirmingArchive: !this.state.isConfirmingArchive
+    })
+  }
+
   render() {
     return(
       <div className="innerWrapper">
         <h3>Hi, {this.props.username}! Here is your list:</h3>
 
         <div className={`newCardMenuButton ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
-          <button onClick={this.toggleIsShowingNewCardForm}><i className='fas fa-times'></i></button>
+          <button onClick={this.toggleIsShowingNewCardForm}><i className='fas fa-times' aria-label=""></i></button>
         </div>
-        <div className={`newCardDiv ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
-          
-          
+        <div className={`newCardDiv ${this.state.isShowingNewCardForm ? 'show' : ''}`}>  
         	{
-        	  this.state.gettingCardDetails
+            //Is the api call being made?
+            this.state.gettingCardDetails
+              //Is there an API error?
         	    ? this.state.showApiError
                   ? <ErrorMessage errorText={this.state.errorMessage} onEnd={this.hideError} />
                   : <p>Fetching card data</p>
@@ -214,15 +221,32 @@ class List extends React.Component {
         	          value={this.state.newCard} 
         	          onChange={(e) => this.setState({newCard:e.target.value})} 
         	        />
+                  <span></span>
         	        <label htmlFor="newCardQuantity">How many:</label>
         	        <input type="number" id="newCardQuantity" 
         	          value={this.state.newCardQuantity} 
         	          onChange={(e) => this.setState({newCardQuantity:e.target.value})}
         	          min="1" max="1337"  
         	        />
+                  <span></span>
         	        <button>Add Card</button>
         	      </form>
         	}
+        </div>
+        <div 
+          className={`clearBoughtButton ${this.state.isConfirmingArchive ? 'clearBoughtConfirming' : ''}`} 
+        >
+          {
+            this.state.isConfirmingArchive 
+              ? <button onClick={this.toggleisConfirmingArchive}><i className="fas fa-times-circle" aria-label="Cancel clearing bought cards."></i></button>
+              : <button onClick={this.toggleisConfirmingArchive}>Clear Bought</button>
+          }
+          <button 
+            onClick={this.removeBoughtCards} 
+            className={`confirmClearButton ${this.state.isConfirmingArchive ? 'show' : ''}`}
+          >
+            <i className="fas fa-check-circle" aria-label="Confirm clearing bought cards."></i>
+          </button>
         </div>
 
         <ul className="cardList">
@@ -237,7 +261,7 @@ class List extends React.Component {
           }
         </ul>
         
-        <button onClick={this.removeBoughtCards}>Archive Bought Cards</button>
+        
         <button onClick={this.props.logoutCallback}>Log Out</button>
       </div>
     );
