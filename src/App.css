@@ -333,10 +333,6 @@ h3 {
   top: 70px;
 }
 
-.newCardMenuButton.show,
-.infoPanelButton.show { 
-  box-shadow: 0px 0 4px #3B3B3B;
-}
 .newCardMenuButton.show {
   width: 280px;
   height: 230px;
