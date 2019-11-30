@@ -126,7 +126,7 @@ input:focus + span {
 
 main {
   padding: 25px 0;
-  /* position: relative; */
+  position: relative;
 }
 
 /* Login / Signup Form Styling */ 
