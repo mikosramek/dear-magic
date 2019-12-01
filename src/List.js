@@ -130,8 +130,9 @@ class List extends React.Component {
         }
       }).then( (result) => {
         if(result.data.data.length > 0){
+          var limitedSuggestions = result.data.data.slice(0, 10);
           this.setState({
-            possibleCards: result.data.data
+            possibleCards: limitedSuggestions
           })
         }else{
           this.setState({
