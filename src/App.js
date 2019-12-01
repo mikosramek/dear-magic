@@ -21,6 +21,7 @@ class App extends React.Component {
     this.state = {
       userIsLoggedIn: false,
       isSigningUp: false,
+      talkingToFirebase: false,
       userRef: '',
       username: '',
       showError: false,
@@ -48,6 +49,9 @@ class App extends React.Component {
   }
 
   attemptLogin = (usernameToLoginWith) => {
+    this.setState({
+      talkingToFirebase: true
+    });
     const dbRef = firebase.database().ref();
     dbRef.once('value', (db) => {
       const userbase = db.val();
@@ -59,6 +63,9 @@ class App extends React.Component {
       }
       //The account doesn't exist
       this.loginError(usernameToLoginWith);
+      this.setState({
+        talkingToFirebase: false
+      });
     })
   }
 
@@ -66,7 +73,8 @@ class App extends React.Component {
     this.setState({
       userRef: userReference,
       userIsLoggedIn: true,
-      username: loggedInUsername
+      username: loggedInUsername,
+      talkingToFirebase: false
     });
     localStorage.setItem(localFirebaseRef, userReference);
     localStorage.setItem(localUsernameRef, loggedInUsername);
@@ -77,6 +85,9 @@ class App extends React.Component {
   }
 
   attemptSignup = (usernameToSignupWith) => {
+    this.setState({
+      talkingToFirebase: true
+    });
     const dbRef = firebase.database().ref();
     dbRef.once('value', (db) => {
       const userbase = db.val();
@@ -84,6 +95,9 @@ class App extends React.Component {
         if(usernameToSignupWith === userbase[index].username){
           //The account already exists
           this.signupError(usernameToSignupWith);
+          this.setState({
+            talkingToFirebase: false
+          });
           return;
         }
       }
@@ -102,9 +116,14 @@ class App extends React.Component {
       // This is only to show object structure (firebase won't recognize it as a thing)
       // cards: [] 
     }
+    console.log(newUser);
     firebase.database().ref().push(newUser);
     //BIG POSITIVE FEEDBACK
-    alert("Signup Success!");
+    // alert("Signup Success!");
+    this.showTheUserAnError("Signup was Successful!");
+    this.setState({
+      talkingToFirebase: false
+    });
   }
 
   logUserOut = () => {
@@ -156,12 +175,22 @@ class App extends React.Component {
               this.state.userIsLoggedIn
                 ? <List account={this.state.userRef} username={this.state.username} logoutCallback={this.logUserOut} />
                 : this.state.isSigningUp
-                    ? <UserForm action="Signup" callback={this.attemptSignup} showError={this.showError}>
+                    ? <UserForm 
+                        action="Signup" 
+                        allowAction={this.state.talkingToFirebase} 
+                        callback={this.attemptSignup} 
+                        showError={this.showError} 
+                      >
                         <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
                           Already a user?
                         </button>
                       </UserForm>
-                    : <UserForm action="Login" callback={this.attemptLogin}  showError={this.showError}>
+                    : <UserForm 
+                        action="Login" 
+                        callback={this.attemptLogin}  
+                        showError={this.showError}
+                        allowAction={this.state.talkingToFirebase} 
+                      >
                         <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
                           Need an account?
                         </button>

@@ -92,7 +92,8 @@ class List extends React.Component {
             prices: result.data.prices,
             hasFoil: result.data.foil,
             imgUrl: result.data.image_uris.small,
-            bought: false
+            bought: false,
+            lastPriceCheck: new Date().toDateString()
           }
           //If the sets or identity are 0 (if the api doesn't have them or they're colorless), create a dummy array so firebase doesn't delete it
           if(newCard.sets.length === 0){
@@ -218,6 +219,62 @@ class List extends React.Component {
     });
   }
 
+  
+
+  queryCardPrices = () => {
+    const priceUpdates = [];
+    this.state.cards.forEach( (card) => {
+      const todaysDate = new Date();
+      if(card.lastPriceCheck !== todaysDate.toDateString()){
+        priceUpdates.push(
+          axios({
+            method: 'GET',
+            url: 'https://api.scryfall.com/cards/named',
+            dataResponse: 'json',
+            params: {
+              exact: card.name,
+            },
+            timeout: 1000,
+          })
+        );
+      }else{
+        //An empty promise
+        const myPromise = new Promise( (fulfill, reject) => {
+          // here we say what will be returned from the promise if it is fulfilled
+          fulfill('successful!')
+          // here we say what will be returned from the promise if it is rejected
+          reject('not successful!')
+        })
+        priceUpdates.push(
+          myPromise
+        )
+      }
+    });
+    axios
+      .all(priceUpdates)
+      .then(
+        axios.spread(
+          (...results) => {
+            this.updateCardPrices(results);
+          }
+        )
+      );
+  }
+  updateCardPrices = (newCardData) => {
+    newCardData.forEach((card, index) => {
+      if(card.data != null){
+        const newPrice = card.data.prices;
+        const cardsRef = firebase.database().ref(this.props.account).child(`cards/${index}`);
+        cardsRef.once('value', (data) => {
+          cardsRef.update({
+            prices: newPrice,
+            lastPriceCheck: new Date().toDateString()
+          })
+        });
+      }
+    });
+  }
+
   removeBoughtCards = () => {
     const cardsRef = firebase.database().ref(this.props.account).child(`cards`);
     const filteredCards = this.state.cards.filter((card) => {
@@ -229,7 +286,6 @@ class List extends React.Component {
   removeAllCards = () => {
     const cardsRef = firebase.database().ref(this.props.account).child(`cards`);
     cardsRef.set([]);
-    this.toggleIsConfirmingDeletion();
   }
 
   toggleIsShowingNewCardForm = () => {
@@ -301,7 +357,11 @@ class List extends React.Component {
           <ConfirmationButton action="Clear Bought" confirmationMessage="Clear bought cards?" confirmAction={this.removeBoughtCards} />
           <ConfirmationButton action="Clear All" confirmationMessage="Clear all cards?" confirmAction={this.removeAllCards} />
         </div> {/* End of Info/Summary Panel */}
-        
+
+
+        <button onClick={this.queryCardPrices}>Update Prices</button>
+
+
         {/* Start of Card List */}
         <ul className="cardList">
           {

@@ -193,6 +193,10 @@ main {
   margin: 25px 0;  
 }
 
+.userForm button:disabled {
+  background-color: #ac6464;
+}
+
 
 
 /* Main List Styling */

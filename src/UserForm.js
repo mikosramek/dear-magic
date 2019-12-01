@@ -51,7 +51,7 @@ class LoginForm extends React.Component {
           
           
           <img src={x} alt="An x indicating where to put your username." />
-          <button>{this.props.action}</button>
+          <button disabled={this.props.allowAction}>{this.props.action}</button>
           <span className="formDivider"></span>
           {
             this.props.children
