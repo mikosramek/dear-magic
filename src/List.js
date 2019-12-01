@@ -142,6 +142,10 @@ class List extends React.Component {
       }).catch( (error) => {
         this.handleError(error);
       });
+    }else{
+      this.setState({
+        possibleCards: []
+      })
     }
   }
   takeCardSuggestion = (event) => {
