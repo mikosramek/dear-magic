@@ -8,6 +8,7 @@ import axios from 'axios';
 import Card from './Card.js';
 import ErrorMessage from './ErrorMessage.js';
 import ListInfo from './ListInfo.js';
+import ConfirmationButton from './ConfirmatioButton.js';
 
 class List extends React.Component {
   constructor() {
@@ -20,8 +21,6 @@ class List extends React.Component {
       gettingCardDetails: false,
       showApiError: false,
       errorMessage: '',
-      isConfirmingArchive: false,
-      isConfirmingDeletion: false,
       isShowingListInfo: false
     }
     this.textInput = React.createRef();
@@ -215,22 +214,12 @@ class List extends React.Component {
     });
     this.focusOnCardInput();
   }
-
-  toggleIsConfirmingArchive = () => {
-    this.setState({
-      isConfirmingArchive: !this.state.isConfirmingArchive
-    });
-  }
   toggleIsShowingListInfo = () => {
     this.setState({
       isShowingListInfo: !this.state.isShowingListInfo
     });
   }
-  toggleIsConfirmingDeletion = () => {
-    this.setState({
-      isConfirmingDeletion: !this.state.isConfirmingDeletion
-    });
-  }
+
   
 
   render() {
@@ -278,28 +267,8 @@ class List extends React.Component {
         </div>
         <div className={`infoPanel ${this.state.isShowingListInfo ? 'show' : ''}`}>
           <ListInfo cards={this.state.cards}  />
-          <div className={`clearBoughtButton ${this.state.isConfirmingArchive ? 'clearBoughtConfirming' : ''}`}>
-            {
-              this.state.isConfirmingArchive 
-                ? <>
-                    <p>Clear bought cards?</p>
-                    <button onClick={this.removeBoughtCards} className={`confirmClearButton ${this.state.isConfirmingArchive ? 'show' : ''}`}><i className="fas fa-check-circle" aria-label="Confirm clearing bought cards."></i></button>
-                    <button onClick={this.toggleIsConfirmingArchive}><i className="fas fa-times-circle" aria-label="Cancel clearing bought cards."></i></button>
-                  </>
-                : <button onClick={this.toggleIsConfirmingArchive}>Clear Bought</button>
-            }
-          </div> {/* End of Clearing Bought Cards Div */}
-          <div className={`clearBoughtButton ${this.state.isConfirmingDeletion ? 'clearBoughtConfirming' : ''}`}>
-            {
-              this.state.isConfirmingDeletion 
-                ? <>
-                    <p>Clear all cards?</p>
-                    <button onClick={this.removeAllCards} className={`confirmClearButton ${this.state.isConfirmingDeletion ? 'show' : ''}`}><i className="fas fa-check-circle" aria-label="Confirm clearing bought cards."></i></button>
-                    <button onClick={this.toggleIsConfirmingDeletion}><i className="fas fa-times-circle" aria-label="Cancel clearing bought cards."></i></button>
-                  </>
-                : <button onClick={this.toggleIsConfirmingDeletion}>Clear All</button>
-            }
-          </div> {/* End of Clearing All Cards Div */}
+          <ConfirmationButton action="Clear Bought" confirmationMessage="Clear bought cards?" confirmAction={this.removeBoughtCards} />
+          <ConfirmationButton action="Clear All" confirmationMessage="Clear all cards?" confirmAction={this.removeAllCards} />
         </div>
         
 
