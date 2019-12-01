@@ -51,6 +51,9 @@ button:focus {
 button:active {
   background-color: #ac6464;
 }
+button:disabled {
+  background-color: #ac6464;
+}
 
 input {
   border: none;
@@ -193,9 +196,7 @@ main {
   margin: 25px 0;  
 }
 
-.userForm button:disabled {
-  background-color: #ac6464;
-}
+
 
 
 
@@ -432,6 +433,31 @@ h3 {
 .listInfoPanel p {
   margin: 0;
   margin-bottom: 10px;
+}
+.infoPanel .updatePricesButton {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  position: absolute;
+  right: -25px;
+  top: 25px;
+  background: none;
+  color: #3B3B3B;
+}
+.infoPanel .updatePricesButton i.updating {
+  animation: spin 2s infinite;
+}
+
+@keyframes spin {
+  0%{
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .newCardDiv.show,

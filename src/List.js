@@ -22,7 +22,8 @@ class List extends React.Component {
       gettingCardDetails: false,
       showApiError: false,
       errorMessage: '',
-      isShowingListInfo: false
+      isShowingListInfo: false,
+      updatingPrices: false
     }
     this.textInput = React.createRef();
   }
@@ -222,6 +223,9 @@ class List extends React.Component {
   
 
   queryCardPrices = () => {
+    this.setState({
+      updatingPrices: true
+    })
     const priceUpdates = [];
     this.state.cards.forEach( (card) => {
       const todaysDate = new Date();
@@ -273,6 +277,9 @@ class List extends React.Component {
         });
       }
     });
+    this.setState({
+      updatingPrices: false
+    })
   }
 
   removeBoughtCards = () => {
@@ -354,12 +361,15 @@ class List extends React.Component {
         </div>
         <div className={`infoPanel ${this.state.isShowingListInfo ? 'show' : ''}`}>
           <ListInfo cards={this.state.cards}  />
+          <button className="updatePricesButton" onClick={this.queryCardPrices} disabled={this.state.updatingPrices}>
+            <i className={`fas fa-sync-alt ${this.state.updatingPrices ? 'updating' : ''}`} aria-label="Update card prices."></i>
+          </button>
           <ConfirmationButton action="Clear Bought" confirmationMessage="Clear bought cards?" confirmAction={this.removeBoughtCards} />
           <ConfirmationButton action="Clear All" confirmationMessage="Clear all cards?" confirmAction={this.removeAllCards} />
         </div> {/* End of Info/Summary Panel */}
 
 
-        <button onClick={this.queryCardPrices}>Update Prices</button>
+       
 
 
         {/* Start of Card List */}
