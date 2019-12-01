@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b14578a89b80b603b280a26f4a9d136c",
+    "revision": "e7d2b3899c8116478f273c21154bcf05",
     "url": "/miko-sramek-project-five/index.html"
   },
   {
-    "revision": "57ce88cd7be6e897d20a",
+    "revision": "717ef13b0e57d30c2cce",
     "url": "/miko-sramek-project-five/static/css/main.a4ced7e8.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/miko-sramek-project-five/static/js/2.1139ad20.chunk.js"
   },
   {
-    "revision": "57ce88cd7be6e897d20a",
-    "url": "/miko-sramek-project-five/static/js/main.d2dd3f08.chunk.js"
+    "revision": "717ef13b0e57d30c2cce",
+    "url": "/miko-sramek-project-five/static/js/main.001354b9.chunk.js"
   },
   {
     "revision": "7dc876a8d4796781b1f1",

@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/miko-sramek-project-five/static/css/main.a4ced7e8.chunk.css",
-    "main.js": "/miko-sramek-project-five/static/js/main.d2dd3f08.chunk.js",
-    "main.js.map": "/miko-sramek-project-five/static/js/main.d2dd3f08.chunk.js.map",
+    "main.js": "/miko-sramek-project-five/static/js/main.001354b9.chunk.js",
+    "main.js.map": "/miko-sramek-project-five/static/js/main.001354b9.chunk.js.map",
     "runtime-main.js": "/miko-sramek-project-five/static/js/runtime-main.2f920c91.js",
     "runtime-main.js.map": "/miko-sramek-project-five/static/js/runtime-main.2f920c91.js.map",
     "static/js/2.1139ad20.chunk.js": "/miko-sramek-project-five/static/js/2.1139ad20.chunk.js",
     "static/js/2.1139ad20.chunk.js.map": "/miko-sramek-project-five/static/js/2.1139ad20.chunk.js.map",
     "index.html": "/miko-sramek-project-five/index.html",
-    "precache-manifest.f3a9c43d738a23f7e1b21d473885a29a.js": "/miko-sramek-project-five/precache-manifest.f3a9c43d738a23f7e1b21d473885a29a.js",
+    "precache-manifest.5ea3e6dacc99cf24d560e90e782af95c.js": "/miko-sramek-project-five/precache-manifest.5ea3e6dacc99cf24d560e90e782af95c.js",
     "service-worker.js": "/miko-sramek-project-five/service-worker.js",
     "static/css/main.a4ced7e8.chunk.css.map": "/miko-sramek-project-five/static/css/main.a4ced7e8.chunk.css.map",
     "static/media/2728_color.svg": "/miko-sramek-project-five/static/media/2728_color.d7d1ddfc.svg",
@@ -20,6 +20,6 @@
     "static/js/runtime-main.2f920c91.js",
     "static/js/2.1139ad20.chunk.js",
     "static/css/main.a4ced7e8.chunk.css",
-    "static/js/main.d2dd3f08.chunk.js"
+    "static/js/main.001354b9.chunk.js"
   ]
 }
