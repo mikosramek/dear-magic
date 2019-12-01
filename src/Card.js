@@ -65,7 +65,7 @@ class Card extends React.Component {
         	  onClick={this.props.checkOff}
         	  className = {`${bought ? 'bought' : ''} cardName`}
         	>
-        	  {bought ? <i className='far fa-check-square'></i> : <i className='far fa-square'></i>} {quantity}x {name}
+        	  <button>{bought ? <i className='far fa-check-square'></i> : <i className='far fa-square'></i>}</button> {quantity}x {name}
             <i className={`ss ss-${latestSet.toLowerCase()} ss-${rarity.toLowerCase()}`}></i>
         	</ span>
           
