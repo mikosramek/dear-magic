@@ -3,7 +3,6 @@ import React from 'react';
 class ConfirmationButton extends React.Component {
   constructor() {
     super();
-    console.log('get rid of me!');
     this.state = {
       isConfirming: false,
     }

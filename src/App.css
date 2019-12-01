@@ -465,6 +465,15 @@ h3 {
   padding: 10px 0;
   margin: 10px 0;
 }
+.newCardForm .cardSuggestion {
+  width: 87%;
+  margin: 0;
+  border-radius: 0;
+  position: absolute;
+  top: 86px;
+  height: 37px;
+  z-index: 15;
+}
 
 .newCardDiv p {
   text-align: center;

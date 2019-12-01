@@ -15,6 +15,7 @@ class List extends React.Component {
     super();
     this.state = {
       cards:[],
+      possibleCards: [],
       newCard: '',
       newCardQuantity: 1,
       isShowingNewCardForm: false,
@@ -50,12 +51,11 @@ class List extends React.Component {
 
   queryNewCard = (event) => {
     event.preventDefault();
-    this.setState({
-      gettingCardDetails: true
-    });
-    
     if(this.state.newCard !== ''){    
-      //
+      this.setState({
+        gettingCardDetails: true
+      });
+      //Inital call to find the card
       axios({
         method: 'GET',
         url: 'https://api.scryfall.com/cards/named',
@@ -65,15 +65,6 @@ class List extends React.Component {
         },
         timeout: 10000,
       }).then( (result) => {
-        //color_identity
-        //multiverse_ids[0] -> hand off
-        //name
-        //prices
-        //rarity
-
-        //foil
-        //image_uris.small
-
         //Make another call to get all the printings of the card
         axios({
           method: 'GET',
@@ -128,15 +119,43 @@ class List extends React.Component {
       //SCREAM AT THE USER
     }
   }
-
+  queryCardSuggestions = () => {
+    if(this.state.newCard !== ''){
+      axios({
+        method: 'GET',
+        url: 'https://api.scryfall.com/cards/autocomplete',
+        dataResponse: 'json',
+        params: {
+          q:this.state.newCard,
+        }
+      }).then( (result) => {
+        if(result.data.data.length > 0){
+          this.setState({
+            possibleCards: result.data.data
+          })
+        }else{
+          this.setState({
+            possibleCards: []
+          })
+        }
+        
+      }).catch( (error) => {
+        this.handleError(error);
+      });
+    }
+  }
+  takeCardSuggestion = (event) => {
+    const suggestion = event.target.value;
+    this.setState({
+      newCard: suggestion,
+      possibleCards: []
+    })
+  }
   //IF statements from axios docs
   handleError = (error) => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-      // console.log(error.response.data);
-      // console.log(error.response.status);
-      // console.log(error.response.headers);
       this.showTheUserAnError(error.response.data.details);
     } else if (error.request) {
       // The request was made but no response was received
@@ -179,6 +198,7 @@ class List extends React.Component {
     });
     this.setState({
       newCard: '',
+      possibleCards: [],
       newCardQuantity: 1
     });
   }
@@ -199,7 +219,6 @@ class List extends React.Component {
       return !card.bought
     });
     cardsRef.set(filteredCards);
-    this.toggleIsConfirmingArchive();
   }
 
   removeAllCards = () => {
@@ -226,11 +245,13 @@ class List extends React.Component {
     return(
       <div className="innerWrapper">
         <h3>Hi, {this.props.username}! Here is your list:</h3>
+
         <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
+
+        {/* Start of New Card Div */}
         <div className={`newCardMenuButton ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
           <button onClick={this.toggleIsShowingNewCardForm}><i className='fas fa-times' aria-label=""></i></button>
         </div>
-        {/* Start of New Card Div */}
         <div className={`newCardDiv ${this.state.isShowingNewCardForm ? 'show' : ''}`}>  
         	{
             //Is the api call being made?
@@ -243,10 +264,15 @@ class List extends React.Component {
         	        <label htmlFor="newCardName">Card name:</label>
         	        <input type="text" id="newCardName" 
         	          value={this.state.newCard} 
-                    onChange={(e) => this.setState({newCard:e.target.value})} 
+                    onChange={(e) => { this.setState({newCard:e.target.value}); this.queryCardSuggestions(); }} 
                     ref={this.textInput}
         	        />
                   <span></span>
+                  {
+                    this.state.possibleCards.map((pCard, index) => {
+                      return <button value={pCard} onClick={this.takeCardSuggestion} type="button" key={pCard+index} className="cardSuggestion" style={{top: `${86 + 37*index}px`}} >{pCard}</button>
+                    })
+                  }
         	        <label htmlFor="newCardQuantity">How many:</label>
         	        <input type="number" id="newCardQuantity" 
         	          value={this.state.newCardQuantity} 
@@ -261,7 +287,7 @@ class List extends React.Component {
 
 
 
-
+        {/* Start of Info/Summary Panel */}
         <div className={`infoPanelButton ${this.state.isShowingListInfo ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''}`}>
           <button onClick={this.toggleIsShowingListInfo}><i className="fas fa-receipt" aria-label=""></i></button>
         </div>
@@ -269,9 +295,9 @@ class List extends React.Component {
           <ListInfo cards={this.state.cards}  />
           <ConfirmationButton action="Clear Bought" confirmationMessage="Clear bought cards?" confirmAction={this.removeBoughtCards} />
           <ConfirmationButton action="Clear All" confirmationMessage="Clear all cards?" confirmAction={this.removeAllCards} />
-        </div>
+        </div> {/* End of Info/Summary Panel */}
         
-
+        {/* Start of Card List */}
         <ul className="cardList">
           {
             this.state.cards !== undefined && this.state.cards.length > 0
