@@ -247,14 +247,19 @@ h3 {
 
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
-.cardHeader p {
-  margin: 0;
-}
+
+
 .cardHeader button {
   background: none;
   color: inherit;
   font-size: 2.2rem;
+  position: relative;
+  top: 2px;
+}
+.cardName button {
+  top: 1px;
 }
 .cardList .cardHeader span{
   cursor: pointer;
@@ -331,7 +336,7 @@ h3 {
 
   background-color: #FFFCF0;
 
-  transition: width 0.35s, height 0.35s, background 0.35s, top 0.35s;
+  transition: width 0.35s, height 0.35s, background 0.35s, top 0.35s, border-radius 0.35s;
 
   z-index: 10;
 }
@@ -342,11 +347,14 @@ h3 {
   right: calc(5% + 10px);
   top: 70px;
 }
+.newCardMenuButton.show,
+.infoPanelButton.show {
+  border-radius: 12.5px;
+}
 
 .newCardMenuButton.show {
   width: 280px;
   height: 230px;
-  z-index: 20;
 }
 .infoPanelButton.show {
   width: 220px;
@@ -467,9 +475,6 @@ h3 {
   z-index: 15;
   transition: opacity 0.35s 0.15s, top 0.35s;
 }
-.newCardDiv.show {
-  z-index: 20;
-}
 
 .infoPanelButton.shift + .infoPanel.show {
   top: 260px;
@@ -562,7 +567,7 @@ h3 {
   width: 100%;
 }
 .clearBoughtConfirming button {
-  padding: 5px 5px;
+  padding: 5px 5px 3px 5px;
 }
 .clearBoughtConfirming i {
   font-size: 3.8rem;
@@ -653,6 +658,7 @@ footer p {
   }
   .cardName button {
     padding: 0;
+    top: -0.5px;
   }
   .cardName i {
     font-size: 1.8rem;
@@ -663,4 +669,5 @@ footer p {
   .bought::after {
     display: none;
   }
+
 }

@@ -224,46 +224,52 @@ class List extends React.Component {
   
 
   queryCardPrices = () => {
-    this.setState({
-      updatingPrices: true
-    })
-    const priceUpdates = [];
-    this.state.cards.forEach( (card) => {
-      const todaysDate = new Date();
-      if(card.lastPriceCheck !== todaysDate.toDateString()){
-        priceUpdates.push(
-          axios({
-            method: 'GET',
-            url: 'https://api.scryfall.com/cards/named',
-            dataResponse: 'json',
-            params: {
-              exact: card.name,
-            },
-            timeout: 10000,
+    if(!this.state.updatingPrices) {
+      this.setState({
+        updatingPrices: true
+      })
+      const priceUpdates = [];
+      this.state.cards.forEach( (card) => {
+        const todaysDate = new Date();
+        if(card.lastPriceCheck !== todaysDate.toDateString()){
+          priceUpdates.push(
+            axios({
+              method: 'GET',
+              url: 'https://api.scryfall.com/cards/named',
+              dataResponse: 'json',
+              params: {
+                exact: card.name,
+              },
+              timeout: 10000,
+            })
+          );
+        }else{
+          //An empty promise
+          const myPromise = new Promise( (fulfill, reject) => {
+            // here we say what will be returned from the promise if it is fulfilled
+            fulfill('successful!')
+            // here we say what will be returned from the promise if it is rejected
+            reject('not successful!')
           })
-        );
-      }else{
-        //An empty promise
-        const myPromise = new Promise( (fulfill, reject) => {
-          // here we say what will be returned from the promise if it is fulfilled
-          fulfill('successful!')
-          // here we say what will be returned from the promise if it is rejected
-          reject('not successful!')
-        })
-        priceUpdates.push(
-          myPromise
-        )
-      }
-    });
-    axios
-      .all(priceUpdates)
-      .then(
-        axios.spread(
-          (...results) => {
-            this.updateCardPrices(results);
-          }
-        )
-      ).catch();
+          priceUpdates.push(
+            myPromise
+          )
+        }
+      });
+      axios
+        .all(priceUpdates)
+        .then(
+          axios.spread(
+            (...results) => {
+              this.updateCardPrices(results);
+            }
+          )
+        ).catch((...errors) => {
+          this.setState({
+            updatingPrices: false
+          })
+        });
+    }
   }
   updateCardPrices = (newCardData) => {
     newCardData.forEach((card, index) => {
@@ -315,7 +321,7 @@ class List extends React.Component {
       <div className="innerWrapper">
         <h3>Hi, {this.props.username}! Here is your list:</h3>
 
-        <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
+        
 
         {/* Start of New Card Div */}
         <div className={`newCardMenuButton ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
@@ -354,7 +360,7 @@ class List extends React.Component {
         	}
         </div> {/* End of New Card Div */}
 
-
+        
 
         {/* Start of Info/Summary Panel */}
         <div className={`infoPanelButton ${this.state.isShowingListInfo ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''}`}>
@@ -369,7 +375,7 @@ class List extends React.Component {
           <ConfirmationButton action="Clear All" confirmationMessage="Clear all cards?" confirmAction={this.removeAllCards} />
         </div> {/* End of Info/Summary Panel */}
 
-
+        <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
        
 
 
