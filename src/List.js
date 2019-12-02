@@ -240,8 +240,6 @@ class List extends React.Component {
     });
   }
 
-  
-
   queryCardPrices = () => {
     if(!this.state.updatingPrices) {
       this.setState({
@@ -315,7 +313,6 @@ class List extends React.Component {
     });
     cardsRef.set(filteredCards);
   }
-
   removeAllCards = () => {
     const cardsRef = firebase.database().ref(this.props.account).child(`cards`);
     cardsRef.set([]);
@@ -333,13 +330,10 @@ class List extends React.Component {
   }
 
   
-
   render() {
     return(
       <div className="innerWrapper">
         <h3>Hi, {this.props.username}! Here is your list:</h3>
-
-        
 
         {/* Start of New Card Div */}
         <div className={`newCardMenuButton ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
