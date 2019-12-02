@@ -263,7 +263,7 @@ class List extends React.Component {
             })
           );
         }else{
-          //An empty promise
+          //An empty promise -> from the Juno notes
           const myPromise = new Promise( (fulfill, reject) => {
             // here we say what will be returned from the promise if it is fulfilled
             fulfill('successful!')
@@ -325,7 +325,6 @@ class List extends React.Component {
     this.setState({
       isShowingNewCardForm: !this.state.isShowingNewCardForm
     });
-    this.focusOnCardInput();
   }
   toggleIsShowingListInfo = () => {
     this.setState({

@@ -87,15 +87,15 @@ class Card extends React.Component {
               <img src={imgUrl} alt={`The card for ${name}`}/>
             </div>
             <div className="cardText">
-              <p>
+              <p>Identity: 
                 {
                   this.getColorIdentity(identity)
                 }
               </p>
-              <p>{this.capitalizeWord(rarity)}</p>
+              <p>Rarity: {this.capitalizeWord(rarity)}</p>
               {
                 this.getPrice(prices).map((item) => {
-                  return <p key={item}>{item}</p>
+                  return <p key={item}>Price: {item}</p>
                 })
               }
             </div>
