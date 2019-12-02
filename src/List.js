@@ -17,6 +17,7 @@ class List extends React.Component {
     this.state = {
       cards:[],
       possibleCards: [],
+      suggestionTimeoutID: undefined,
       newCard: '',
       newCardQuantity: 1,
       isShowingNewCardForm: false,
@@ -122,35 +123,53 @@ class List extends React.Component {
       //SCREAM AT THE USER
     }
   }
-  queryCardSuggestions = () => {
+
+  attemptQueryCardSuggestion = () => {
     if(this.state.newCard !== ''){
-      axios({
-        method: 'GET',
-        url: 'https://api.scryfall.com/cards/autocomplete',
-        dataResponse: 'json',
-        params: {
-          q:this.state.newCard,
-        }
-      }).then( (result) => {
-        if(result.data.data.length > 0){
-          var limitedSuggestions = result.data.data.slice(0, 10);
-          this.setState({
-            possibleCards: limitedSuggestions
-          })
-        }else{
-          this.setState({
-            possibleCards: []
-          })
-        }
-        
-      }).catch( (error) => {
-        this.handleError(error);
-      });
+      if(this.state.suggestionTimeoutID !== undefined){
+        clearTimeout(this.state.suggestionTimeoutID);
+        const timeoutID = setTimeout(this.queryCardSuggestions, 300);
+        this.setState({
+          suggestionTimeoutID: timeoutID
+        });
+      }else{
+        const timeoutID = setTimeout(this.queryCardSuggestions, 300);
+        this.setState({
+          suggestionTimeoutID: timeoutID
+        });
+      }
     }else{
       this.setState({
         possibleCards: []
       })
     }
+  }
+  queryCardSuggestions = () => {
+    this.setState({
+      suggestionTimeoutID: undefined
+    });
+    axios({
+      method: 'GET',
+      url: 'https://api.scryfall.com/cards/autocomplete',
+      dataResponse: 'json',
+      params: {
+        q:this.state.newCard,
+      }
+    }).then( (result) => {
+      if(result.data.data.length > 0){
+        var limitedSuggestions = result.data.data.slice(0, 10);
+        this.setState({
+          possibleCards: limitedSuggestions
+        })
+      }else{
+        this.setState({
+          possibleCards: []
+        })
+      }
+      
+    }).catch( (error) => {
+      this.handleError(error);
+    });
   }
   takeCardSuggestion = (event) => {
     const suggestion = event.target.value;
@@ -339,7 +358,7 @@ class List extends React.Component {
         	        <label htmlFor="newCardName">Card name:</label>
         	        <input type="text" id="newCardName" 
         	          value={this.state.newCard} 
-                    onChange={(e) => { this.setState({newCard:e.target.value}); this.queryCardSuggestions(); }} 
+                    onChange={(e) => { this.setState({newCard:e.target.value}); this.attemptQueryCardSuggestion(); }} 
                     ref={this.textInput}
         	        />
                   <span></span>
