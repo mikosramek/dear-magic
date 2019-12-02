@@ -42,7 +42,7 @@ button {
   color: #FFFCF0;
 
   font-size: 1.5rem;
-  border-radius: 12.5px;
+  border-radius: 100px;
 }
 button:hover,
 button:focus {

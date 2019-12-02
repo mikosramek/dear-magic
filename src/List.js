@@ -1,7 +1,7 @@
 //Import required modules
 import React from 'react';
-import firebase from 'firebase/app';
-import 'firebase/database';
+// import firebase from 'firebase/app';
+// import 'firebase/database';
 import axios from 'axios';
 
 //Import Components
@@ -9,6 +9,7 @@ import Card from './Card.js';
 import ErrorMessage from './ErrorMessage.js';
 import ListInfo from './ListInfo.js';
 import ConfirmationButton from './ConfirmatioButton.js';
+import firebase from './firebase.js';
 
 class List extends React.Component {
   constructor() {
@@ -238,7 +239,7 @@ class List extends React.Component {
             params: {
               exact: card.name,
             },
-            timeout: 1000,
+            timeout: 10000,
           })
         );
       }else{
@@ -262,7 +263,7 @@ class List extends React.Component {
             this.updateCardPrices(results);
           }
         )
-      );
+      ).catch();
   }
   updateCardPrices = (newCardData) => {
     newCardData.forEach((card, index) => {
