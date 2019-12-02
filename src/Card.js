@@ -11,10 +11,6 @@ class Card extends React.Component {
       expandDescription: false
     }
   }
-  componentDidMount() {
-    
-  }
-
   getColorIdentity = (colors) => {
     let identity = '';
     //A brute force thing to make sure the colour identity is in WUBRG order. (It's an MTG thing)
@@ -50,7 +46,6 @@ class Card extends React.Component {
   }
   capitalizeWord = (word) => {
     let newWord = word.substring(0,1).toUpperCase() + word.substring(1, word.length);
-    // console.log(newWord);
     return newWord;
   }
 
@@ -60,6 +55,7 @@ class Card extends React.Component {
     // console.log(prices);
     return(
       <li>
+        {/* Start of Card Header Div */}
         <div className="cardHeader">
         	<span 
         	  onClick={this.props.checkOff}
@@ -73,19 +69,25 @@ class Card extends React.Component {
         	  <i className={`fas fa-chevron-${this.state.expandDescription ? 'up' : 'down'}`} aria-label={`Expand the description for ${name}`}></i>   
         	</ button>
 
-        </div>
+        </div> {/* End of Card Header Div */}
+        {/* Start of Card Body Div */}
         <div className={`cardBody ${this.state.expandDescription ? 'show' : 'hide'}`}>
           { 
+            // Is there a foil version available?
             hasFoil
+              // Display the sparkle!
               ? <div className="foilMark"><img src={sparkle} alt="This card has a foil version available."/></div>
+              // Display nothing!
               : null
           }
           
-         
+          {/* Start of Card Details Div */}
           <div className="cardDetails">
+            {/* Start of Card Image Div */}
             <div className="cardImage">
               <img src={imgUrl} alt={`The card for ${name}`}/>
-            </div>
+            </div> {/* End of Card Image Div */}
+            {/* Start of Card Text Div */}
             <div className="cardText">
               <p>Identity: 
                 {
@@ -98,20 +100,23 @@ class Card extends React.Component {
                   return <p key={item}>Price: {item}</p>
                 })
               }
-            </div>
-          </div>
+            </div> {/* End of Card Text Div */}
+          </div> {/* End of Card Details Div */}
           {
             sets.map( (set) => {
               // return  <i key={name+set} className={`ss ss-${set.toLowerCase()} ss-${rarity.toLowerCase()}`}></i> 
               return (
+              // Does the set exist in the card sets json
               (cardSets[set.toUpperCase()] !== undefined)
+                // Display the set!
                 ? <p key={name+set}><i className={`ss ss-${set} ss-${rarity}`}></i> {cardSets[set.toUpperCase()]}</p>
+                // Display nothing! Shhhh!
                 : null  
               )
             })
           }
 
-        </div>
+        </div> {/* End of Card Body Div */}
       </li>
     );
   }

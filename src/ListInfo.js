@@ -19,10 +19,12 @@ class ListInfo extends React.Component {
       let tPrice = 0;
       let tQuantity = 0;
       this.props.cards.forEach((card) => {
+        //If the card has a price in usd, add it to the totals, if it doesn't, check if it does in foil.
         if(card.prices.usd !== undefined){
           tPrice += parseFloat(card.prices.usd) * card.quantity;
+        }else if(card.prices.usd_foil !== undefined) {
+          tPrice += parseFloat(card.prices.usd_foil) * card.quantity;
         }
-        
         tQuantity += parseInt(card.quantity);
       });
       info.push({

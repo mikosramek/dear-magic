@@ -337,7 +337,7 @@ class List extends React.Component {
 
         {/* Start of New Card Div */}
         <div className={`newCardMenuButton ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
-          <button onClick={this.toggleIsShowingNewCardForm}><i className='fas fa-times' aria-label=""></i></button>
+          <button onClick={this.toggleIsShowingNewCardForm}><i className='fas fa-times' aria-label="Toggle the form for adding a new card."></i></button>
         </div>
         <div className={`newCardDiv ${this.state.isShowingNewCardForm ? 'show' : ''}`}>  
         	{
@@ -354,7 +354,8 @@ class List extends React.Component {
                     onChange={(e) => { this.setState({newCard:e.target.value}); this.attemptQueryCardSuggestion(); }} 
                     ref={this.textInput}
         	        />
-                  <span></span>
+                  {/* Underline span */}
+                  <span></span> 
                   {
                     this.state.possibleCards.map((pCard, index) => {
                       return <button value={pCard} onClick={this.takeCardSuggestion} type="button" key={pCard+index} className="cardSuggestion" style={{top: `${86 + 37*index}px`}} >{pCard}</button>
@@ -366,6 +367,7 @@ class List extends React.Component {
         	          onChange={(e) => this.setState({newCardQuantity:e.target.value})}
         	          min="1" max="1337"  
         	        />
+                  {/* Underline span */}
                   <span></span>
         	        <button>Add Card</button>
         	      </form>
@@ -376,7 +378,7 @@ class List extends React.Component {
 
         {/* Start of Info/Summary Panel */}
         <div className={`infoPanelButton ${this.state.isShowingListInfo ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''}`}>
-          <button onClick={this.toggleIsShowingListInfo}><i className="fas fa-receipt" aria-label=""></i></button>
+          <button onClick={this.toggleIsShowingListInfo}><i className="fas fa-receipt" aria-label="Toggle the summary menu."></i></button>
         </div>
         <div className={`infoPanel ${this.state.isShowingListInfo ? 'show' : ''}`}>
           <ListInfo cards={this.state.cards}  />
@@ -387,6 +389,9 @@ class List extends React.Component {
           <ConfirmationButton action="Clear All" confirmationMessage="Clear all cards?" confirmAction={this.removeAllCards} />
         </div> {/* End of Info/Summary Panel */}
 
+        
+        
+
         <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
        
 
@@ -394,13 +399,16 @@ class List extends React.Component {
         {/* Start of Card List */}
         <ul className="cardList">
           {
+            //Are there card and more than 0 cards?
             this.state.cards !== undefined && this.state.cards.length > 0
+              //Map through them!
               ? this.state.cards.map((item, index) => {
                 return(
                   <Card key={index} checkOff={() => this.updateCardToBought(index)} card={item}/>
                 )
               })
-              : <li className="placeholderCard">Add cards by pressing the + icon!</li>
+              //Show a placeholder message!
+              : <li className="placeholderCard">Add cards by pressing the + button!</li>
           }
         </ul> {/* End of Card List */}
         

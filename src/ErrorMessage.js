@@ -6,12 +6,13 @@ class ErrorMessage extends React.Component {
     super();
     this.state = {
       showError: true,
-      timeoutId: ''
     }
   }
+  //When the component mounts, set a timer until it fades out
   componentDidMount() {
     setTimeout(this.hideError, 1200);
   }
+  //When it starts to fade out, start a timer until it unmounts itself with a callback
   hideError = () => {
     this.setState({
       showError: false

@@ -476,6 +476,10 @@ h3 {
   transition: opacity 0.35s 0.15s, top 0.35s;
 }
 
+.infoPanel.show {
+  z-index: 14;
+}
+
 .infoPanelButton.shift + .infoPanel.show {
   top: 260px;
 }
