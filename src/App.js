@@ -116,7 +116,6 @@ class App extends React.Component {
       // This is only to show object structure (firebase won't recognize it as a thing)
       // cards: [] 
     }
-    console.log(newUser);
     firebase.database().ref().push(newUser);
     //BIG POSITIVE FEEDBACK
     // alert("Signup Success!");
@@ -156,12 +155,13 @@ class App extends React.Component {
   render() {
     return(
       <div>
+        {/* Start of Wrapper */}
         <div className="wrapper">
           <header>
             <div className="innerWrapper">
               <img className="logo" src={logo} alt="A wax seal." />
               <h1>Dear Magic</h1>
-              <h2>A personal buylist</h2>
+              <h2>A personal buylist for <span>Magic: The Gathering</span></h2>
             </div>
           </header>
 
@@ -172,9 +172,13 @@ class App extends React.Component {
                 : null
             }
             { 
+              // Is the user logged in?
               this.state.userIsLoggedIn
+                // Show them their list!
                 ? <List account={this.state.userRef} username={this.state.username} logoutCallback={this.logUserOut} />
+                // Show them the login/signup form -> Are they signing up?
                 : this.state.isSigningUp
+                    // Show them the signup form
                     ? <UserForm 
                         action="Signup" 
                         allowAction={this.state.talkingToFirebase} 
@@ -185,6 +189,7 @@ class App extends React.Component {
                           Already a user?
                         </button>
                       </UserForm>
+                    // Show them the login form
                     : <UserForm 
                         action="Login" 
                         callback={this.attemptLogin}  
@@ -201,7 +206,8 @@ class App extends React.Component {
         <footer>
             <p>mikosramek © 2019</p>
         </footer>
-        </div>
+
+        </div> {/* End of Wrapper */}
       </div> /* End of App div */
     );
   }

@@ -299,9 +299,6 @@ h3 {
 .cardBody .cardDetails {
   display: flex;
 }
-.cardBody .cardImage {
-
-}
 .cardBody .cardText {
   margin-left: 25px;
 }
@@ -625,6 +622,9 @@ footer p {
 }
 
 @media (max-width:530px){
+  h2 span {
+    display: block;
+  }
   .wrapper {
     width: 100%;
   }
@@ -651,6 +651,7 @@ footer p {
     font-size: 2rem;
     padding-left: 70px;
   }
+
   h3 {
     font-size: 2rem;
   }

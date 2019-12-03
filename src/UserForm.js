@@ -40,24 +40,20 @@ class LoginForm extends React.Component {
 
   render() {
     return(
-      <div>
-        <form onSubmit={this.attemptAction} className="userForm">
-          
-          
-          <label htmlFor="username">Username</label>
-          <input type="text" id="username" value={this.state.input} onChange={this.handleUserInput}/>
-          {/* After element boss */}
-          <span></span>
-          
-          
-          <img src={x} alt="An x indicating where to put your username." />
-          <button disabled={this.props.allowAction}>{this.props.action}</button>
-          <span className="formDivider"></span>
-          {
-            this.props.children
-          }
-        </form>
-      </div>
+      <form onSubmit={this.attemptAction} className="userForm">
+            
+        <label htmlFor="username">Username</label>
+        <input type="text" id="username" value={this.state.input} onChange={this.handleUserInput}/>
+        {/* After element for underline */}
+        <span></span>
+        
+        <img src={x} alt="An x indicating where to put your username." />
+        <button disabled={this.props.allowAction}>{this.props.action}</button>
+        <span className="formDivider"></span>
+        {
+          this.props.children
+        }
+      </form>
     );
   }
 };

@@ -50,9 +50,7 @@ class Card extends React.Component {
   }
 
   render() {
-    // this.capitalizeWord('hello');
     const { bought, name, quantity, identity, rarity, sets, latestSet, prices, imgUrl, hasFoil } = this.props.card;
-    // console.log(prices);
     return(
       <li>
         {/* Start of Card Header Div */}
