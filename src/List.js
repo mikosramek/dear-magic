@@ -342,11 +342,11 @@ class List extends React.Component {
     }
     if(this.state.priceOrder === 'desc'){
       newCardArray.sort((cardA, cardB) => {
-        return cardA.prices.usd > cardB.prices.usd ? 1 : -1
+        return parseFloat(cardA.prices.usd) > parseFloat(cardB.prices.usd) ? 1 : -1
       });
     }else if(this.state.priceOrder === 'asc'){
       newCardArray.sort((cardA, cardB) => {
-        return cardA.prices.usd < cardB.prices.usd ? 1 : -1
+        return parseFloat(cardA.prices.usd) < parseFloat(cardB.prices.usd) ? 1 : -1
       });
     }
     this.setState({

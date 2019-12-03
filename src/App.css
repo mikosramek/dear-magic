@@ -657,15 +657,18 @@ footer p {
 @media (min-width: 1275px){
   .newCardMenuButton,
   .clearBoughtButton,
-  .infoPanelButton {
+  .infoPanelButton,
+  .cardFilterButton {
     background-color: #F5EDD2;
   }
   .newCardMenuButton.show,
-  .infoPanelButton.show{
+  .infoPanelButton.show,
+  .cardFilterButton.show {
     border: 4px solid #FFFCF0;
   }
   .newCardMenuButton.show button,
-  .infoPanelButton.show button {
+  .infoPanelButton.show button,
+  .cardFilterButton.show button {
     top: 6px;
     right: 6px;
   }
