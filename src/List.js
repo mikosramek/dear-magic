@@ -16,6 +16,7 @@ class List extends React.Component {
     super();
     this.state = {
       cards:[],
+      filteredCards: [],
       possibleCards: [],
       suggestionTimeoutID: undefined,
       newCard: '',
@@ -25,7 +26,10 @@ class List extends React.Component {
       showApiError: false,
       errorMessage: '',
       isShowingListInfo: false,
-      updatingPrices: false
+      updatingPrices: false,
+      isShowingFilter: false,
+      priceOrder: 'none',
+      setFilter: ''
     }
     this.textInput = React.createRef();
   }
@@ -42,7 +46,8 @@ class List extends React.Component {
       const cardArray = account.val().cards;
       if(cardArray !== undefined){
         this.setState({
-          cards: cardArray
+          cards: cardArray,
+          filteredCards: cardArray
         })
       }else{
         this.setState({
@@ -318,6 +323,37 @@ class List extends React.Component {
     cardsRef.set([]);
   }
 
+  filterCards = (event) => {
+    event.preventDefault();
+    console.log("filter: ", this.state.setFilter,this.state.priceOrder);
+    const currentCards = [...this.state.cards];
+    let newCardArray = [];
+
+    if(this.state.setFilter !== ''){
+      newCardArray = currentCards.filter((card) => {
+        if(card.sets.includes(this.state.setFilter.toLowerCase())){
+          return true;
+        }else{
+          return false;
+        }
+      });
+    }else {
+      newCardArray = [...currentCards];
+    }
+    if(this.state.priceOrder === 'desc'){
+      newCardArray.sort((cardA, cardB) => {
+        return cardA.prices.usd > cardB.prices.usd ? 1 : -1
+      });
+    }else if(this.state.priceOrder === 'asc'){
+      newCardArray.sort((cardA, cardB) => {
+        return cardA.prices.usd < cardB.prices.usd ? 1 : -1
+      });
+    }
+    this.setState({
+      filteredCards: newCardArray
+    })
+  }
+
   toggleIsShowingNewCardForm = () => {
     this.setState({
       isShowingNewCardForm: !this.state.isShowingNewCardForm
@@ -328,12 +364,19 @@ class List extends React.Component {
       isShowingListInfo: !this.state.isShowingListInfo
     });
   }
+  toggleIsShowingFilter = () => {
+    this.setState({
+      isShowingFilter: !this.state.isShowingFilter
+    });
+  }
 
   
   render() {
     return(
       <div className="innerWrapper">
         <h3>Hi, {this.props.username}! Here is your list:</h3>
+
+        
 
         {/* Start of New Card Div */}
         <div className={`newCardMenuButton ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
@@ -374,13 +417,11 @@ class List extends React.Component {
         	}
         </div> {/* End of New Card Div */}
 
-        
-
         {/* Start of Info/Summary Panel */}
-        <div className={`infoPanelButton ${this.state.isShowingListInfo ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''}`}>
+        <div className={`infoPanelButton ${this.state.isShowingListInfo ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''} ${this.state.isShowingFilter ? 'shift2' : ''}`}>
           <button onClick={this.toggleIsShowingListInfo}><i className="fas fa-receipt" aria-label="Toggle the summary menu."></i></button>
         </div>
-        <div className={`infoPanel ${this.state.isShowingListInfo ? 'show' : ''}`}>
+        <div className={`infoPanel ${this.state.isShowingListInfo ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''} ${this.state.isShowingFilter ? 'shift2' : ''}`}>
           <ListInfo cards={this.state.cards}  />
           <button className="updatePricesButton" onClick={this.queryCardPrices} disabled={this.state.updatingPrices}>
             <i className={`fas fa-sync-alt ${this.state.updatingPrices ? 'updating' : ''}`} aria-label="Update card prices."></i>
@@ -390,7 +431,57 @@ class List extends React.Component {
         </div> {/* End of Info/Summary Panel */}
 
         
-        
+        <div className={`cardFilterButton ${this.state.isShowingFilter ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''} ${this.state.isShowingListInfo ? 'shift2' : ''}`}>
+          <button onClick={this.toggleIsShowingFilter}>
+            <i className="fas fa-filter" aria-label="Toggle the form for filtering your list."></i>
+          </button>
+        </div>
+        <div className={`cardFilterPanel ${this.state.isShowingFilter ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''} ${this.state.isShowingListInfo ? 'shift2' : ''}`}>
+          <form onSubmit={this.filterCards}>
+            <fieldset>
+              <legend>Order by Price:</legend>
+              <label htmlFor="priceNone" name="priceOrder">
+                <input 
+                  type="radio" 
+                  name="priceOrder" 
+                  id="priceNone" 
+                  value="none"
+                  checked={this.state.priceOrder === 'none'}
+                  onChange={() => this.setState({priceOrder: 'none'})}
+                />
+                None
+              </label>
+              <label htmlFor="priceAsc" name="priceOrder">
+                <input 
+                  type="radio" 
+                  name="priceOrder" 
+                  id="priceAsc" 
+                  value="asc" 
+                  checked={this.state.priceOrder === 'asc'}
+                  onChange={() => this.setState({priceOrder: 'asc'})}
+                />
+                High to Low
+              </label>
+              <label htmlFor="priceDesc" name="priceOrder">
+                <input 
+                  type="radio" 
+                  name="priceOrder" 
+                  id="priceDesc" 
+                  value="desc" 
+                  checked={this.state.priceOrder === 'desc'}
+                  onChange={() => this.setState({priceOrder: 'desc'})}
+                />
+                Low to High
+              </label>
+            </fieldset>
+            <label htmlFor="setFilter">Filter by Set:</label>
+            <input type="text" id="setFilter" value={this.state.setFilter} onChange={(e) => this.setState({setFilter: e.target.value})}/>
+            {/* Underline span */}
+            <span></span>
+            <button>Apply filter</button>
+          </form>
+        </div>
+
 
         <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
        
@@ -400,9 +491,9 @@ class List extends React.Component {
         <ul className="cardList">
           {
             //Are there card and more than 0 cards?
-            this.state.cards !== undefined && this.state.cards.length > 0
+            this.state.filteredCards !== undefined && this.state.filteredCards.length > 0
               //Map through them!
-              ? this.state.cards.map((item, index) => {
+              ? this.state.filteredCards.map((item, index) => {
                 return(
                   <Card key={index} checkOff={() => this.updateCardToBought(index)} card={item}/>
                 )

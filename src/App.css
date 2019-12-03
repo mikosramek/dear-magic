@@ -63,6 +63,12 @@ input {
   background-color: #CED1B9;
   text-align: left;
 }
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
 .wrapper {
   background-color: #F5EDD2;
   min-height: 100vh;
@@ -114,7 +120,8 @@ input + span {
 input:focus + span {
   width: 70%;
 }
-.newCardDiv input:focus + span {
+.newCardDiv input:focus + span,
+.cardFilterPanel input:focus + span {
   width: 100%;
 }
 
@@ -323,7 +330,8 @@ h3 {
 /* New Card and Info Buttons */
 
 .newCardMenuButton,
-.infoPanelButton {
+.infoPanelButton,
+.cardFilterButton {
   
   position: fixed;
   top: 10px;
@@ -336,7 +344,7 @@ h3 {
 
   background-color: #FFFCF0;
 
-  transition: width 0.35s, height 0.35s, background 0.35s, top 0.35s, border-radius 0.35s;
+  transition: width 0.35s, height 0.35s, background 0.35s, top 0.35s, right 0.35s, border-radius 0.35s;
 
   z-index: 10;
 }
@@ -347,25 +355,38 @@ h3 {
   right: calc(5% + 10px);
   top: 70px;
 }
+.cardFilterButton {
+  right: calc(5% + 70px);
+}
+
 .newCardMenuButton.show,
 .infoPanelButton.show {
   border-radius: 12.5px;
 }
 
 .newCardMenuButton.show {
-  width: 280px;
+  width: 260px;
   height: 230px;
 }
 .infoPanelButton.show {
   width: 220px;
   height: 300px;
 }
-.infoPanelButton.shift {
+.cardFilterButton.show {
+  width: 195px;
+  height: 230px;
+}
+.infoPanelButton.shift,
+.infoPanelButton.shift2 {
   top: 250px;
+}
+.cardFilterButton.shift {
+  right: calc(5% + 280px);
 }
 
 .newCardMenuButton button,
-.infoPanelButton button {
+.infoPanelButton button,
+.cardFilterButton button {
   padding: 5px;
   height: 30px;
   width: 30px;
@@ -381,11 +402,14 @@ h3 {
 
   transition: transform 0.35s;
 }
-.infoPanelButton button {
+.infoPanelButton button,
+.cardFilterButton button {
   transform: rotate(0);
 }
 .infoPanelButton button:hover,
-.infoPanelButton button:focus{
+.infoPanelButton button:focus,
+.cardFilterButton button:hover,
+.cardFilterButton button:focus{
   transform: scale(1.1);
 }
 .newCardMenuButton button:hover,
@@ -393,7 +417,8 @@ h3 {
   transform: scale(1.1) rotate(45deg);
 }
 
-.infoPanelButton.show button {
+.infoPanelButton.show button,
+.cardFilterButton.show button {
   transform: rotate(-180deg);
 }
 .newCardMenuButton.show button {
@@ -404,8 +429,9 @@ h3 {
 /* New Card & List Info Form */
 
 .newCardDiv,
-.infoPanel {
-  width: 230px;
+.infoPanel,
+.cardFilterPanel {
+  width: 200px;
 
   position: fixed;
   right: calc(5% + 40px);
@@ -432,6 +458,14 @@ h3 {
   margin: 15px;
   min-height: 0;
   width: auto;
+}
+.cardFilterPanel {
+  right: calc(5% + 120px);
+  width: 130px;
+  top: 30px;
+}
+.cardFilterPanel.shift {
+  right: calc(5% + 330px);
 }
 
 .listInfoPanel h3 {
@@ -468,20 +502,49 @@ h3 {
   }
 }
 
+
+
 .newCardDiv.show,
-.infoPanel.show {
+.infoPanel.show,
+.cardFilterPanel.show {
   opacity: 1;
   visibility: visible;
   z-index: 15;
-  transition: opacity 0.35s 0.15s, top 0.35s;
+  transition: opacity 0.35s 0.15s, top 0.35s, right 0.35s;
 }
 
 .infoPanel.show {
   z-index: 14;
 }
 
-.infoPanelButton.shift + .infoPanel.show {
+.infoPanel.shift,
+.infoPanel.shift2 {
   top: 260px;
+}
+.cardFilterPanel form {
+  display: flex;
+  flex-direction: column;
+}
+.cardFilterPanel button {
+  width: 80%;
+  align-self: flex-end;
+  padding: 10px 10px;
+  margin: 10px 0;
+}
+.cardFilterPanel input[type="text"] {
+  width:100%;
+  padding: 10px 15px;
+}
+.cardFilterPanel label {
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+
+  font-size: 1.5rem;
+}
+.cardFilterPanel label input[type="radio"]{
+  margin-right: 10px;
 }
 
 
@@ -550,7 +613,7 @@ h3 {
   padding: 10px 10px;
 
   position: relative;
-  font-size: 2.2rem;
+  font-size: 1.5rem;
   color: #FFFCF0;
 }
 
@@ -571,7 +634,7 @@ h3 {
   width: 100%;
 }
 .clearBoughtConfirming button {
-  padding: 5px 5px 3px 5px;
+  padding: 5px;
 }
 .clearBoughtConfirming i {
   font-size: 3.8rem;
@@ -643,6 +706,64 @@ footer p {
   }
   .cardList {
     margin: 0;
+  }
+  .cardFilterButton {
+    top: 70px;
+  }
+  .cardFilterPanel {
+    top: 90px;
+  }
+  .infoPanelButton,
+  .newCardMenuButton {
+    right: 10px;
+  }
+  .newCardDiv {
+    right: 45px;
+  }
+  .infoPanel {
+    right: 30px;
+  }
+  .infoPanelButton.shift2,
+  .infoPanel.shift2 {
+    top: 70px;
+  }
+  .infoPanelButton.shift,
+  .infoPanel.shift,
+  .cardFilterButton.shift{
+    top: 250px;
+  }
+  
+  .cardFilterButton {
+    right: 70px;
+  }
+  .cardFilterButton.shift {
+    right: calc(70px);
+  }
+  .cardFilterPanel {
+    right: 110px;
+  }
+  .cardFilterPanel.shift {
+    right: calc(110px);
+    top: 270px;
+  }
+
+  .cardFilterButton.shift2 {
+    right: calc(210px);
+  }
+  .cardFilterPanel.shift2 {
+    right: calc(250px);
+  }
+
+  .infoPanelButton.show {
+    width: 190px;
+    height: 270px;
+  }
+  .listInfoPanel h3 {
+    font-size: 2rem;
+  }
+  .listInfoPanel p,
+  .clearBoughtButton p  {
+    font-size: 1.5rem;
   }
 }
 
