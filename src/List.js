@@ -178,7 +178,7 @@ class List extends React.Component {
       possibleCards: []
     })
   }
-  
+
   //IF statements from axios docs
   handleError = (error) => {
     if (error.response) {

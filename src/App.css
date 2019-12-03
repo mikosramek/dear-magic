@@ -25,7 +25,10 @@ Call to Action: #C88080
 
 */
 
-@import url('https://fonts.googleapis.com/css?family=Beth+Ellen|Patrick+Hand&display=swap');
+/* Title: Beth Ellen */
+/* Normal text: Patrick Hand */
+/* Login X svg: Walter Turncoat */
+@import url('https://fonts.googleapis.com/css?family=Beth+Ellen|Patrick+Hand|Walter+Turncoat&display=swap');
 
 
 /* Global Styling */
