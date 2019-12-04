@@ -1,15 +1,18 @@
-//Import required modules
+// import required modules
 import React from 'react';
 // import firebase from 'firebase/app';
 // import 'firebase/database';
 import axios from 'axios';
 
-//Import Components
+// import Components
 import Card from './Card.js';
 import ErrorMessage from './ErrorMessage.js';
 import ListInfo from './ListInfo.js';
 import ConfirmationButton from './ConfirmatioButton.js';
 import firebase from './firebase.js';
+
+// import files
+import cardSets from './assets/sets.json';
 
 class List extends React.Component {
   constructor() {
@@ -18,6 +21,7 @@ class List extends React.Component {
       cards:[],
       filteredCards: [],
       possibleCards: [],
+      possibleSets: [],
       suggestionTimeoutID: undefined,
       newCard: '',
       newCardQuantity: 1,
@@ -325,7 +329,6 @@ class List extends React.Component {
 
   filterCards = (event) => {
     event.preventDefault();
-    console.log("filter: ", this.state.setFilter,this.state.priceOrder);
     const currentCards = [...this.state.cards];
     let newCardArray = [];
 
@@ -340,20 +343,61 @@ class List extends React.Component {
     }else {
       newCardArray = [...currentCards];
     }
-    if(this.state.priceOrder === 'desc'){
-      newCardArray.sort((cardA, cardB) => {
-        return parseFloat(cardA.prices.usd) > parseFloat(cardB.prices.usd) ? 1 : -1
+    
+    if(this.state.priceOrder !== 'none'){
+      const noPriceCards = [];
+      newCardArray.forEach((card) => {
+        if(card.prices.usd === undefined){
+          noPriceCards.push(card);
+        }
       });
-    }else if(this.state.priceOrder === 'asc'){
-      newCardArray.sort((cardA, cardB) => {
-        return parseFloat(cardA.prices.usd) < parseFloat(cardB.prices.usd) ? 1 : -1
+      noPriceCards.forEach((card) => {
+        newCardArray.splice(newCardArray.indexOf(card), 1);
       });
+      newCardArray.sort((a, b) => {
+        const order = this.state.priceOrder;
+        //if order is ASC return the higher one
+        if(order === 'asc'){
+          return parseFloat(a.prices.usd) < parseFloat(b.prices.usd) ? 1 : -1;
+        }
+        //if order is DESC return the lower one
+        else if(order === 'desc'){
+          return parseFloat(a.prices.usd) > parseFloat(b.prices.usd) ? 1 : -1;
+        }
+        return -1;
+      })
     }
+
     this.setState({
       filteredCards: newCardArray
     })
   }
-
+  getSetSuggestions = () => {
+    const input = this.state.setFilter;
+    if(input !== ''){
+      const filter = new RegExp(input, "i");
+      const pSets = [];
+      for(let set in cardSets){
+        if((filter.test(cardSets[set]) || filter.test(set)) && pSets.length < 10){
+          pSets.push({abr: set, fullName: cardSets[set]});
+        }
+      }
+      this.setState({
+        possibleSets: pSets
+      })
+    }else{
+      this.setState({
+        possibleSets: []
+      })
+    }
+  }
+  takeSetSuggestion = (event) => {
+    event.preventDefault();
+    this.setState({
+      possibleSets: [],
+      setFilter: event.target.value
+    });
+  }
   toggleIsShowingNewCardForm = () => {
     this.setState({
       isShowingNewCardForm: !this.state.isShowingNewCardForm
@@ -475,9 +519,14 @@ class List extends React.Component {
               </label>
             </fieldset>
             <label htmlFor="setFilter">Filter by Set:</label>
-            <input type="text" id="setFilter" value={this.state.setFilter} onChange={(e) => this.setState({setFilter: e.target.value})}/>
+            <input type="text" autocomplete="off" id="setFilter" value={this.state.setFilter} onChange={ (e) => { this.setState({setFilter: e.target.value}, this.getSetSuggestions); } }/>
             {/* Underline span */}
             <span></span>
+            {
+              this.state.possibleSets.map((pCard, index) => {
+                return <button value={pCard.abr} onClick={this.takeSetSuggestion} type="button" key={pCard.abr+index} className="setSuggestion" style={{top: `${138 + 37*index}px`}} >{pCard.abr}: {pCard.fullName}</button>
+              })
+            }
             <button>Apply filter</button>
           </form>
         </div>

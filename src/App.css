@@ -512,6 +512,9 @@ h3 {
   z-index: 15;
   transition: opacity 0.35s 0.15s, top 0.35s, right 0.35s;
 }
+.cardFilterPanel.show {
+  z-index: 12;
+}
 
 .infoPanel.show {
   z-index: 14;
@@ -547,7 +550,6 @@ h3 {
   margin-right: 10px;
 }
 
-
 .newCardForm {  
   width: 100%;
   padding: 15px; 
@@ -572,7 +574,8 @@ h3 {
   padding: 10px 0;
   margin: 10px 0;
 }
-.newCardForm .cardSuggestion {
+.newCardForm .cardSuggestion,
+.cardFilterPanel .setSuggestion {
   width: 87%;
   margin: 0;
   border-radius: 0;
@@ -580,6 +583,10 @@ h3 {
   top: 86px;
   height: 37px;
   z-index: 15;
+}
+.cardFilterPanel .setSuggestion {
+  width: 100%;
+  font-size: 1.2rem;
 }
 
 .newCardDiv p {
