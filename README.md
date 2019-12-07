@@ -2,6 +2,8 @@
 ## a personal buylist for Magic: the Gathering
 
 A simple project created by Miko Sramek for the Juno College bootcamp.
+
+View it live: https://mikosramek.github.io/mikoSramekProjectFive/
 ![](https://i.imgur.com/DpQKJ3q.png)
 ## functionality
 Users are able to:
