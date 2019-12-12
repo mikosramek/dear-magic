@@ -419,9 +419,6 @@ class List extends React.Component {
     return(
       <div className="innerWrapper">
         <h3>Hi, {this.props.username}! Here is your list:</h3>
-
-        
-
         {/* Start of New Card Div */}
         <div className={`newCardMenuButton ${this.state.isShowingNewCardForm ? 'show' : ''}`}>
           <button onClick={this.toggleIsShowingNewCardForm}><i className='fas fa-times' aria-label="Toggle the form for adding a new card."></i></button>
