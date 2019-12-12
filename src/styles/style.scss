@@ -1,0 +1,16 @@
+/* Setup - setup.scss / variables.scss / mixins.scss */
+@import 'setup';
+@import 'variables';
+@import 'mixins';
+/* Type Styles - type.scss */
+@import 'type';
+/* Global Styles - global.scss */
+@import 'global';
+/* Header Styles - header.scss */
+@import 'header';
+/* Main Styles - header.scss */
+@import 'main';
+@import 'userForm';
+@import 'mainList';
+/* Footer Styles - footer.scss */
+@import 'footer';

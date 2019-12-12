@@ -6,7 +6,7 @@ import UserForm from './components/UserForm.js';
 import List from "./components/List";
 import ErrorMessage from './components/ErrorMessage.js';
 
-import './App.css';
+import './styles/style.scss';
 
 import logo from './assets/logo.svg'
 import './fonts/keyrune.ttf';

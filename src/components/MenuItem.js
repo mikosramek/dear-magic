@@ -20,12 +20,14 @@ class MenuItem extends React.Component {
       <>
         <div className={`menuItemButton ${this.state.showContents ? 'show' : ''}`}>
           <button onClick={this.toggleShowContents}>
-            <i className={`fas ${this.props.icon}`} aria-label={this.props.action}></i>
+            {/* <i className={`${this.props.icon}`} aria-label={this.props.action}></i> */}
+            {this.props.action}
           </button>
         </div>
         {
           this.state.showContents
           ? <div className="menuItemContent">
+              <button onClick={this.toggleShowContents} className="menuItemCloseButton"><i className='fas fa-times'></i></button>
               {this.props.children}
             </div>
           : null

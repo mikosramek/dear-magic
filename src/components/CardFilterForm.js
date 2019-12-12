@@ -46,12 +46,7 @@ class CardFilterForm extends React.Component {
   render() {
     return(
       <>
-        <div className={`cardFilterButton ${this.state.isShowingFilter ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''} ${this.state.isShowingListInfo ? 'shift2' : ''}`}>
-          <button onClick={this.toggleIsShowingFilter}>
-            <i className="fas fa-filter" aria-label="Toggle the form for filtering your list."></i>
-          </button>
-        </div>
-        <div className={`cardFilterPanel ${this.state.isShowingFilter ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''} ${this.state.isShowingListInfo ? 'shift2' : ''}`}>
+        <div className={`cardFilterPanel show`}>
           <form onSubmit={(e) => this.props.filterCards(e, this.state.setFilter, this.state.priceOrder)}>
             <fieldset>
               <legend>Order by Price:</legend>
