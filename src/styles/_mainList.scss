@@ -130,17 +130,90 @@
     height: 100%;
   }
 }
+.menuItemCloseButton,
+.menuItemBacking,
+.menuItemContent {
+  opacity: 0;
+  transition: opacity 0.2s;
+  visibility: hidden;
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 .menuItemCloseButton {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -15px;
+  right: -15px;
+  height: 30px;
+  width: 30px;
+  z-index: 100;
 }
+.menuItemBacking,
 .menuItemContent {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: $off-white;
 
   width: 100%;
   height: 40vh;
+  
+}
+.menuItemBacking {
+  background-color: $off-white;
+  border-radius: 12.5px;
+}
+
+
+.newCardDiv {
+  font-size: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+
+  height:100%;
+  align-items: center;
+}
+
+
+.newCardForm {  
+  width: 100%;
+  padding: 15px; 
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+
+  label {
+    width: 100%;
+    margin-top: 5px;
+    z-index: 2;
+  }
+  input {
+    width: 100%;
+    padding: 10px 15px;
+  }
+  button {
+    width: 50%;
+    padding: 10px 0;
+    margin: 10px 0;
+  }
+  p {
+    text-align: center;
+  }
+  .cardSuggestion {
+    width: calc(100% - 30px);
+    border-radius: 0;
+    position: absolute;
+    top: 86px;
+    height: 37px;
+    z-index: 15;
+  }
+  .userWarning p{
+    background-color: #FFFCF0;
+  }
 }

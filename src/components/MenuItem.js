@@ -20,19 +20,17 @@ class MenuItem extends React.Component {
       <>
         <div className={`menuItemButton ${this.state.showContents ? 'show' : ''}`}>
           <button onClick={this.toggleShowContents}>
-            {/* <i className={`${this.props.icon}`} aria-label={this.props.action}></i> */}
             {this.props.action}
           </button>
         </div>
-        {
-          this.state.showContents
-          ? <div className="menuItemContent">
-              <button onClick={this.toggleShowContents} className="menuItemCloseButton"><i className='fas fa-times'></i></button>
-              {this.props.children}
-            </div>
-          : null
-        }
-        
+        <div>
+          <button onClick={this.toggleShowContents} className={`menuItemCloseButton ${this.state.showContents ? 'show' : ''}`}><i className='fas fa-times'></i></button>
+          <div className={`menuItemBacking ${this.state.showContents ? 'show' : ''}`}>
+          </div>
+          <div className={`menuItemContent ${this.state.showContents ? 'show' : ''}`}>
+            {this.props.children}
+          </div>
+        </div>
       </>
     );
   }
