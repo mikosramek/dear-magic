@@ -1,18 +1,18 @@
 // import required modules
 import React from 'react';
-// import firebase from 'firebase/app';
-// import 'firebase/database';
 import axios from 'axios';
+import firebase from '../firebase.js';
 
 // import Components
-import Card from './Card.js';
-import ErrorMessage from './ErrorMessage.js';
-import ListInfo from './ListInfo.js';
-import ConfirmationButton from './ConfirmatioButton.js';
-import firebase from './firebase.js';
+import Card from './Card';
+import ErrorMessage from './ErrorMessage';
+import ConfirmationButton from './ConfirmatioButton';
 
-// import files
-import cardSets from './assets/sets.json';
+import ListInfo from './ListInfo';
+import CardFilterForm from './CardFilterForm';
+
+import MenuItem from './MenuItem';
+
 
 class List extends React.Component {
   constructor() {
@@ -21,19 +21,16 @@ class List extends React.Component {
       cards:[],
       filteredCards: [],
       possibleCards: [],
-      possibleSets: [],
+
       suggestionTimeoutID: undefined,
       newCard: '',
       newCardQuantity: 1,
-      isShowingNewCardForm: false,
+
       gettingCardDetails: false,
       showApiError: false,
       errorMessage: '',
       isShowingListInfo: false,
       updatingPrices: false,
-      isShowingFilter: false,
-      priceOrder: 'none',
-      setFilter: ''
     }
     this.textInput = React.createRef();
   }
@@ -327,14 +324,14 @@ class List extends React.Component {
     cardsRef.set([]);
   }
 
-  filterCards = (event) => {
+  filterCards = (event, setFilter, priceOrder) => {
     event.preventDefault();
     const currentCards = [...this.state.cards];
     let newCardArray = [];
 
-    if(this.state.setFilter !== ''){
+    if(setFilter !== ''){
       newCardArray = currentCards.filter((card) => {
-        if(card.sets.includes(this.state.setFilter.toLowerCase())){
+        if(card.sets.includes(setFilter.toLowerCase())){
           return true;
         }else{
           return false;
@@ -344,7 +341,7 @@ class List extends React.Component {
       newCardArray = [...currentCards];
     }
     
-    if(this.state.priceOrder !== 'none'){
+    if(priceOrder !== 'none'){
       const noPriceCards = [];
       newCardArray.forEach((card) => {
         if(card.prices.usd === undefined){
@@ -355,7 +352,7 @@ class List extends React.Component {
         newCardArray.splice(newCardArray.indexOf(card), 1);
       });
       newCardArray.sort((a, b) => {
-        const order = this.state.priceOrder;
+        const order = priceOrder;
         //if order is ASC return the higher one
         if(order === 'asc'){
           return parseFloat(a.prices.usd) < parseFloat(b.prices.usd) ? 1 : -1;
@@ -372,32 +369,7 @@ class List extends React.Component {
       filteredCards: newCardArray
     })
   }
-  getSetSuggestions = () => {
-    const input = this.state.setFilter;
-    if(input !== ''){
-      const filter = new RegExp(input, "i");
-      const pSets = [];
-      for(let set in cardSets){
-        if((filter.test(cardSets[set]) || filter.test(set)) && pSets.length < 10){
-          pSets.push({abr: set, fullName: cardSets[set]});
-        }
-      }
-      this.setState({
-        possibleSets: pSets
-      })
-    }else{
-      this.setState({
-        possibleSets: []
-      })
-    }
-  }
-  takeSetSuggestion = (event) => {
-    event.preventDefault();
-    this.setState({
-      possibleSets: [],
-      setFilter: event.target.value
-    });
-  }
+ 
   toggleIsShowingNewCardForm = () => {
     this.setState({
       isShowingNewCardForm: !this.state.isShowingNewCardForm
@@ -408,12 +380,7 @@ class List extends React.Component {
       isShowingListInfo: !this.state.isShowingListInfo
     });
   }
-  toggleIsShowingFilter = () => {
-    this.setState({
-      isShowingFilter: !this.state.isShowingFilter
-    });
-  }
-
+  
   
   render() {
     return(
@@ -471,64 +438,12 @@ class List extends React.Component {
           <ConfirmationButton action="Clear All" confirmationMessage="Clear all cards?" confirmAction={this.removeAllCards} />
         </div> {/* End of Info/Summary Panel */}
 
+        {/* <CardFilterForm filterCards={this.filterCards} /> */}
+
+        <MenuItem icon="fa-filter" action="Toggle the form for filtering your card list.">
+          <CardFilterForm filterCards={this.filterCards} />
+        </MenuItem>
         
-        <div className={`cardFilterButton ${this.state.isShowingFilter ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''} ${this.state.isShowingListInfo ? 'shift2' : ''}`}>
-          <button onClick={this.toggleIsShowingFilter}>
-            <i className="fas fa-filter" aria-label="Toggle the form for filtering your list."></i>
-          </button>
-        </div>
-        <div className={`cardFilterPanel ${this.state.isShowingFilter ? 'show' : ''} ${this.state.isShowingNewCardForm ? 'shift' : ''} ${this.state.isShowingListInfo ? 'shift2' : ''}`}>
-          <form onSubmit={this.filterCards}>
-            <fieldset>
-              <legend>Order by Price:</legend>
-              <label htmlFor="priceNone" name="priceOrder">
-                <input 
-                  type="radio" 
-                  name="priceOrder" 
-                  id="priceNone" 
-                  value="none"
-                  checked={this.state.priceOrder === 'none'}
-                  onChange={() => this.setState({priceOrder: 'none'})}
-                />
-                None
-              </label>
-              <label htmlFor="priceAsc" name="priceOrder">
-                <input 
-                  type="radio" 
-                  name="priceOrder" 
-                  id="priceAsc" 
-                  value="asc" 
-                  checked={this.state.priceOrder === 'asc'}
-                  onChange={() => this.setState({priceOrder: 'asc'})}
-                />
-                High to Low
-              </label>
-              <label htmlFor="priceDesc" name="priceOrder">
-                <input 
-                  type="radio" 
-                  name="priceOrder" 
-                  id="priceDesc" 
-                  value="desc" 
-                  checked={this.state.priceOrder === 'desc'}
-                  onChange={() => this.setState({priceOrder: 'desc'})}
-                />
-                Low to High
-              </label>
-            </fieldset>
-            <label htmlFor="setFilter">Filter by Set:</label>
-            <input type="text" autocomplete="off" id="setFilter" value={this.state.setFilter} onChange={ (e) => { this.setState({setFilter: e.target.value}, this.getSetSuggestions); } }/>
-            {/* Underline span */}
-            <span></span>
-            {
-              this.state.possibleSets.map((pCard, index) => {
-                return <button value={pCard.abr} onClick={this.takeSetSuggestion} type="button" key={pCard.abr+index} className="setSuggestion" style={{top: `${138 + 37*index}px`}} >{pCard.abr}: {pCard.fullName}</button>
-              })
-            }
-            <button>Apply filter</button>
-          </form>
-        </div>
-
-
         <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
        
 

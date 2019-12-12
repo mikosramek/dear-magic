@@ -1,7 +1,7 @@
 import React from 'react';
 
-import cardSets from './assets/sets.json';
-import sparkle from './assets/2728_color.svg';
+import cardSets from '../assets/sets.json';
+import sparkle from '../assets/2728_color.svg';
 
 
 class Card extends React.Component {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-import x from './assets/x.svg';
+import x from '../assets/x.svg';
 
 class LoginForm extends React.Component {
   constructor() {

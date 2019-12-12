@@ -1,10 +1,10 @@
 import React from 'react';
 
 import firebase from './firebase.js';
-import UserForm from './UserForm.js';
+import UserForm from './components/UserForm.js';
 
-import List from "./List.js";
-import ErrorMessage from './ErrorMessage.js';
+import List from "./components/List";
+import ErrorMessage from './components/ErrorMessage.js';
 
 import './App.css';
 
