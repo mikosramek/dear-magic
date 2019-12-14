@@ -3,7 +3,7 @@
 
 A simple project created by Miko Sramek for the Juno College bootcamp.
 
-View it live: https://mikosramek.github.io/mikoSramekProjectFive/
+View it live: https://mikosramek.github.io/dear-magic/
 ![](https://i.imgur.com/DpQKJ3q.png)
 ## functionality
 Users are able to:
