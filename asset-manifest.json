@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/mikoSramekProjectFive/static/css/main.e722bd40.chunk.css",
-    "main.js": "/mikoSramekProjectFive/static/js/main.031c3d61.chunk.js",
-    "main.js.map": "/mikoSramekProjectFive/static/js/main.031c3d61.chunk.js.map",
-    "runtime-main.js": "/mikoSramekProjectFive/static/js/runtime-main.7cefd1d4.js",
-    "runtime-main.js.map": "/mikoSramekProjectFive/static/js/runtime-main.7cefd1d4.js.map",
-    "static/js/2.8f61baa9.chunk.js": "/mikoSramekProjectFive/static/js/2.8f61baa9.chunk.js",
-    "static/js/2.8f61baa9.chunk.js.map": "/mikoSramekProjectFive/static/js/2.8f61baa9.chunk.js.map",
-    "index.html": "/mikoSramekProjectFive/index.html",
-    "precache-manifest.8da28d266dfa420e7c8cef9d846ab59d.js": "/mikoSramekProjectFive/precache-manifest.8da28d266dfa420e7c8cef9d846ab59d.js",
-    "service-worker.js": "/mikoSramekProjectFive/service-worker.js",
-    "static/css/main.e722bd40.chunk.css.map": "/mikoSramekProjectFive/static/css/main.e722bd40.chunk.css.map",
-    "static/media/2728_color.svg": "/mikoSramekProjectFive/static/media/2728_color.d7d1ddfc.svg",
-    "static/media/keyrune.ttf": "/mikoSramekProjectFive/static/media/keyrune.77551c95.ttf",
-    "static/media/logo.svg": "/mikoSramekProjectFive/static/media/logo.c75381dc.svg",
-    "static/media/x.svg": "/mikoSramekProjectFive/static/media/x.feabe299.svg"
+    "main.css": "/dear-magic/static/css/main.e722bd40.chunk.css",
+    "main.js": "/dear-magic/static/js/main.e1f34738.chunk.js",
+    "main.js.map": "/dear-magic/static/js/main.e1f34738.chunk.js.map",
+    "runtime-main.js": "/dear-magic/static/js/runtime-main.11c00835.js",
+    "runtime-main.js.map": "/dear-magic/static/js/runtime-main.11c00835.js.map",
+    "static/js/2.3fe21f16.chunk.js": "/dear-magic/static/js/2.3fe21f16.chunk.js",
+    "static/js/2.3fe21f16.chunk.js.map": "/dear-magic/static/js/2.3fe21f16.chunk.js.map",
+    "index.html": "/dear-magic/index.html",
+    "precache-manifest.ed1c9bcd1698766674bb90a3f1361a1c.js": "/dear-magic/precache-manifest.ed1c9bcd1698766674bb90a3f1361a1c.js",
+    "service-worker.js": "/dear-magic/service-worker.js",
+    "static/css/main.e722bd40.chunk.css.map": "/dear-magic/static/css/main.e722bd40.chunk.css.map",
+    "static/media/2728_color.svg": "/dear-magic/static/media/2728_color.d7d1ddfc.svg",
+    "static/media/keyrune.ttf": "/dear-magic/static/media/keyrune.77551c95.ttf",
+    "static/media/logo.svg": "/dear-magic/static/media/logo.c75381dc.svg",
+    "static/media/x.svg": "/dear-magic/static/media/x.feabe299.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.7cefd1d4.js",
-    "static/js/2.8f61baa9.chunk.js",
+    "static/js/runtime-main.11c00835.js",
+    "static/js/2.3fe21f16.chunk.js",
     "static/css/main.e722bd40.chunk.css",
-    "static/js/main.031c3d61.chunk.js"
+    "static/js/main.e1f34738.chunk.js"
   ]
 }
