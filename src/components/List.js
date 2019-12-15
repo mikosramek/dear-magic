@@ -156,11 +156,9 @@ class List extends React.Component {
             <CardFilterForm filterCards={this.filterCards} />
           </MenuItem>
         </ul>
-        
+
         <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
        
-
-
         {/* Start of Card List */}
         <ul className="cardList">
           {

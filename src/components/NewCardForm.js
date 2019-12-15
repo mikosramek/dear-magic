@@ -209,7 +209,7 @@ class NewCardForm extends React.Component {
                   {/* Underline span */}
                   {
                     this.state.possibleCards.map((pCard, index) => {
-                      return <button value={pCard} onClick={this.takeCardSuggestion} type="button" key={pCard+index} className="cardSuggestion" style={{top: `${75 + 37*index}px`}} >{pCard}</button>
+                      return <button value={pCard} onClick={this.takeCardSuggestion} type="button" key={pCard+index} className="cardSuggestion" style={{top: `${61 + 37*index}px`}} >{pCard}</button>
                     })
                   }
         	        <div>
@@ -217,7 +217,8 @@ class NewCardForm extends React.Component {
                     <input type="number" id="newCardQuantity" 
                       value={this.state.newCardQuantity} 
                       onChange={(e) => this.setState({newCardQuantity:e.target.value})}
-                      min="1" max="200"  
+                      min="1" max="200"
+                      required
                     />
                     {/* Underline span */}
                     <span></span>

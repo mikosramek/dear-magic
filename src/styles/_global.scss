@@ -19,7 +19,7 @@ button {
   background-color: $primary-accent;
   color: $off-black;
 
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   &:hover,
   &:focus {
     background-color: lighten($primary-accent, 5);
@@ -46,11 +46,18 @@ h2 {
   margin: 0;
 
   font-size: 2.2rem;
+  @include media($final-break){
+    font-size: 2rem;
+    padding-left: 70px;
+  }
 }
 
 h3 {
   font-size: 2.8rem;
   margin: 0;
+  @include media($final-break){
+    font-size: 2rem;
+  }
 }
 
 .wrapper {

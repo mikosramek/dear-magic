@@ -14,6 +14,9 @@ h1 {
 
   position: relative;
   z-index: 2;
+  @include media($final-break){
+    font-size: 3rem;
+  }
 }
 
 .logo {
@@ -24,4 +27,10 @@ h1 {
   left: -25px;
 
   z-index: 1;
+  @include media($first-break){
+    left: -15px;
+  }
+  @include media($final-break){
+    width: 80px;
+  }
 }
