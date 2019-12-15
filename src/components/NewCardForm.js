@@ -197,27 +197,31 @@ class NewCardForm extends React.Component {
                   ? <ErrorMessage errorText={this.state.errorMessage} onEnd={this.hideError} />
                   : <p>Fetching card data</p>
         	    : <form onSubmit={this.queryNewCard} className="newCardForm">
-        	        <label htmlFor="newCardName">Card name:</label>
-        	        <input type="text" id="newCardName" 
-        	          value={this.state.newCard} 
-                    onChange={(e) => { this.setState({newCard:e.target.value}); this.attemptQueryCardSuggestion(); }} 
-                    ref={this.textInput}
-        	        />
+        	        <div>
+                    <label htmlFor="newCardName">Card name:</label>
+                    <input type="text" id="newCardName" 
+                      value={this.state.newCard} 
+                      onChange={(e) => { this.setState({newCard:e.target.value}); this.attemptQueryCardSuggestion(); }} 
+                      ref={this.textInput}
+                    />
+                    <span></span> 
+                  </div>
                   {/* Underline span */}
-                  <span></span> 
                   {
                     this.state.possibleCards.map((pCard, index) => {
-                      return <button value={pCard} onClick={this.takeCardSuggestion} type="button" key={pCard+index} className="cardSuggestion" style={{top: `${86 + 37*index}px`}} >{pCard}</button>
+                      return <button value={pCard} onClick={this.takeCardSuggestion} type="button" key={pCard+index} className="cardSuggestion" style={{top: `${75 + 37*index}px`}} >{pCard}</button>
                     })
                   }
-        	        <label htmlFor="newCardQuantity">How many:</label>
-        	        <input type="number" id="newCardQuantity" 
-        	          value={this.state.newCardQuantity} 
-        	          onChange={(e) => this.setState({newCardQuantity:e.target.value})}
-        	          min="1" max="1337"  
-        	        />
-                  {/* Underline span */}
-                  <span></span>
+        	        <div>
+                    <label htmlFor="newCardQuantity">How many:</label>
+                    <input type="number" id="newCardQuantity" 
+                      value={this.state.newCardQuantity} 
+                      onChange={(e) => this.setState({newCardQuantity:e.target.value})}
+                      min="1" max="200"  
+                    />
+                    {/* Underline span */}
+                    <span></span>
+                  </div>
         	        <button>Add Card</button>
         	      </form>
         	}

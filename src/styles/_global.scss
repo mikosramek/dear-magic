@@ -4,11 +4,12 @@ a, a:visited { text-decoration: none; color: inherit }
 ul { list-style: none; padding: 0;}
 
 @import url('https://fonts.googleapis.com/css?family=Beth+Ellen|Patrick+Hand|Walter+Turncoat&display=swap');
-
+body, button, input {
+  font-family: $font-sans-serif;
+}
 body {
   background-color: $off-white;
   color: $off-black;
-  font-family: 'Patrick Hand', sans-serif;
 }
 button {
   cursor: pointer;

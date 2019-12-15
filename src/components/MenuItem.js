@@ -17,14 +17,12 @@ class MenuItem extends React.Component {
   }
   render() {
     return(
-      <li>
-        <div className={`menuItemButton ${this.state.showContents ? 'show' : ''}`}>
-          <button onClick={this.toggleShowContents}>
-            <i class={this.props.icon} aria-label={this.props.action}></i>
-          </button>
-        </div>
+      <li className={`menuItem ${this.state.showContents ? 'shift' : ''}`}>
+        <button onClick={this.toggleShowContents} className={`menuItemButton ${this.state.showContents ? 'show' : ''}`}>
+          <i className={this.props.icon} aria-label={this.props.action}></i>
+        </button>
         <div>
-          <button onClick={this.toggleShowContents} className={`menuItemCloseButton ${this.state.showContents ? 'show' : ''}`}><i className='fas fa-times'></i></button>
+          {/* <button onClick={this.toggleShowContents} className={`menuItemCloseButton ${this.state.showContents ? 'show' : ''}`}><i className='fas fa-times'></i></button> */}
           <div className={`menuItemBacking ${this.state.showContents ? 'show' : ''}`}>
           </div>
           <div className={`menuItemContent ${this.state.showContents ? 'show' : ''}`}>

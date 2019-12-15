@@ -275,10 +275,13 @@ ul {
   padding: 0;
 }
 
+body, button, input {
+  font-family: "Patrick Hand", sans-serif;
+}
+
 body {
   background-color: #FFFCF0;
   color: #3B3B3B;
-  font-family: 'Patrick Hand', sans-serif;
 }
 
 button {
@@ -594,73 +597,110 @@ main {
 }
 
 .menuItemList {
-  position: relative;
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   z-index: 10;
+  position: fixed;
+  right: calc(5% + 20px);
+  top: 10px;
 }
 
 .menuItemList li {
-  width: calc((100% - 10px)/3);
+  position: relative;
+  right: 0;
+  top: 0px;
 }
 
-.menuItemList li:nth-of-type(2) {
-  margin: 0 5px;
+.menuItem {
+  -webkit-transition: -webkit-transform 0.35s;
+  transition: -webkit-transform 0.35s;
+  transition: transform 0.35s;
+  transition: transform 0.35s, -webkit-transform 0.35s;
+}
+
+.menuItem.shift ~ .menuItem {
+  -webkit-transform: translateY(170px);
+          transform: translateY(170px);
+}
+
+.menuItem.shift + .menuItem.shift + .menuItem {
+  -webkit-transform: translateY(340px);
+          transform: translateY(340px);
+}
+
+.menuItem.shift .menuItemButton {
+  -webkit-transform: scale(1.1) rotate(90deg);
+          transform: scale(1.1) rotate(90deg);
+}
+
+.menuItem:nth-of-type(1) .menuItemBacking.show {
+  width: 300px;
+}
+
+.menuItem:nth-of-type(1) .menuItemContent {
+  width: 300px;
+}
+
+.menuItem:nth-of-type(2) {
+  top: 60px;
+}
+
+.menuItem:nth-of-type(3) {
+  top: 120px;
 }
 
 .menuItemButton {
-  width: 100%;
-  height: 50px;
-}
-
-.menuItemButton button {
-  width: 100%;
-  height: 100%;
-}
-
-.menuItemCloseButton,
-.menuItemBacking,
-.menuItemContent {
-  opacity: 0;
-  -webkit-transition: opacity 0.2s;
-  transition: opacity 0.2s;
-  visibility: hidden;
-}
-
-.menuItemCloseButton.show,
-.menuItemBacking.show,
-.menuItemContent.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-.menuItemCloseButton {
+  padding: 10px;
+  height: 40px;
+  width: 40px;
   position: absolute;
-  top: -15px;
-  right: -15px;
-  height: 30px;
-  width: 30px;
-  z-index: 100;
+  top: 5px;
+  right: 5px;
+  z-index: 50;
+  background: none;
+  color: #3B3B3B;
+  font-size: 2rem;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  -webkit-transition: -webkit-transform 0.35s;
+  transition: -webkit-transform 0.35s;
+  transition: transform 0.35s;
+  transition: transform 0.35s, -webkit-transform 0.35s;
 }
 
-.menuItemBacking,
-.menuItemContent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 40vh;
+.menuItemButton:hover {
+  background-color: #FFFCF0;
+  -webkit-transform: scale(1.1) rotate(45deg);
+          transform: scale(1.1) rotate(45deg);
 }
 
 .menuItemBacking {
+  position: absolute;
+  top: 0px;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
   background-color: #FFFCF0;
-  border-radius: 12.5px;
+  -webkit-transition: width 0.35s, height 0.35s, background 0.35s, top 0.35s, right 0.35s, border-radius 0.35s;
+  transition: width 0.35s, height 0.35s, background 0.35s, top 0.35s, right 0.35s, border-radius 0.35s;
+  z-index: 10;
 }
 
-.newCardDiv {
-  font-size: 2.4rem;
+.menuItemBacking.show {
+  width: 400px;
+  height: 220px;
+}
+
+.menuItemContent {
+  width: 400px;
+  height: 220px;
+  position: absolute;
+  right: 0;
+  top: 0px;
+  z-index: -1;
+  font-size: 2rem;
+  min-height: 200px;
+  opacity: 0;
+  visibility: hidden;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -673,15 +713,20 @@ main {
           justify-content: center;
   -ms-flex-line-pack: center;
       align-content: center;
-  height: 100%;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-transition: opacity 0s 0s, visibility 0s 0.35s;
+  transition: opacity 0s 0s, visibility 0s 0.35s;
+}
+
+.menuItemContent.show {
+  opacity: 1;
+  visibility: visible;
+  z-index: 15;
+  -webkit-transition: opacity 0.35s 0.15s, top 0.35s, right 0.35s;
+  transition: opacity 0.35s 0.15s, top 0.35s, right 0.35s;
 }
 
 .newCardForm {
-  width: 100%;
-  padding: 15px;
+  padding: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -689,25 +734,23 @@ main {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   position: relative;
 }
 
 .newCardForm label {
   width: 100%;
+  display: block;
   margin-top: 5px;
   z-index: 2;
 }
 
 .newCardForm input {
-  width: 100%;
+  width: 90%;
   padding: 10px 15px;
 }
 
 .newCardForm button {
-  width: 50%;
+  width: 90%;
   padding: 10px 0;
   margin: 10px 0;
 }
@@ -717,12 +760,16 @@ main {
 }
 
 .newCardForm .cardSuggestion {
-  width: calc(100% - 30px);
+  width: calc(90% - 36px);
   border-radius: 0;
   position: absolute;
-  top: 86px;
+  top: 82px;
   height: 37px;
   z-index: 15;
+}
+
+.newCardForm .cardSuggestion:nth-last-of-type(2) {
+  border-radius: 0px 0px 25px 25px;
 }
 
 .newCardForm .userWarning p {
