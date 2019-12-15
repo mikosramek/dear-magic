@@ -17,10 +17,10 @@ class MenuItem extends React.Component {
   }
   render() {
     return(
-      <>
+      <li>
         <div className={`menuItemButton ${this.state.showContents ? 'show' : ''}`}>
           <button onClick={this.toggleShowContents}>
-            {this.props.action}
+            <i class={this.props.icon} aria-label={this.props.action}></i>
           </button>
         </div>
         <div>
@@ -31,7 +31,7 @@ class MenuItem extends React.Component {
             {this.props.children}
           </div>
         </div>
-      </>
+      </li>
     );
   }
 };

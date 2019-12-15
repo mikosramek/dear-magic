@@ -147,21 +147,15 @@ class List extends React.Component {
         <h3>Hi, {this.props.username}! Here is your list:</h3>
 
         <ul className="menuItemList">
-          <li className="">
-            <MenuItem icon="fas fa-times" action="Add a card" position={0}>
-               <NewCardForm addNewCard={this.addNewCard} />
-            </MenuItem>
-          </li>
-          <li className="">
-            <MenuItem icon="fas fa-receipt" action="Summary" position={1}>
-              <ListInfo cards={this.state.cards}  updateCardPrices={this.updateCardPrices} removeBoughtCards={this.removeBoughtCards} removeAllCards={this.removeAllCards} />
-            </MenuItem>
-          </li>
-          <li className="">
-            <MenuItem icon="fas fa-filter" action="Filter your list" position={2}>
-              <CardFilterForm filterCards={this.filterCards} />
-            </MenuItem>
-          </li>
+          <MenuItem icon="fas fa-times" action="Add a card" position={0}>
+              <NewCardForm addNewCard={this.addNewCard} />
+          </MenuItem>
+          <MenuItem icon="fas fa-receipt" action="Summary" position={1}>
+            <ListInfo cards={this.state.cards}  updateCardPrices={this.updateCardPrices} removeBoughtCards={this.removeBoughtCards} removeAllCards={this.removeAllCards} />
+          </MenuItem>
+          <MenuItem icon="fas fa-filter" action="Filter your list" position={2}>
+            <CardFilterForm filterCards={this.filterCards} />
+          </MenuItem>
         </ul>
         
         <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
