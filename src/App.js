@@ -25,7 +25,8 @@ class App extends React.Component {
       userRef: '',
       username: '',
       showError: false,
-      errorMessage: ''
+      errorMessage: '',
+      loggedInAsGuest: false
     }
   }
   componentDidMount() {
@@ -117,12 +118,11 @@ class App extends React.Component {
       // cards: [] 
     }
     firebase.database().ref().push(newUser);
-    //BIG POSITIVE FEEDBACK
-    // alert("Signup Success!");
     this.showTheUserAnError("Signup was Successful!");
     this.setState({
       talkingToFirebase: false
     });
+    this.attemptLogin(usernameToSignupWith);
   }
 
   logUserOut = () => {
@@ -151,6 +151,34 @@ class App extends React.Component {
     });
   }
 
+  loginAsGuest = () => {
+    this.setState({
+      talkingToFirebase: true,
+      loggedInAsGuest: false
+    });
+    const dbRef = firebase.database().ref();
+    dbRef.once('value', (db) => {
+      const userbase = db.val();
+      const numberOfUsers = Object.keys(userbase).length;
+      const guestUserName = 'guest' + numberOfUsers;
+      const newGuestUser = {
+        username: guestUserName,
+        guestAccount: true,
+      }
+      const ref = dbRef.push(newGuestUser);
+      ref.then((a) => {
+          const name = 'guest' + a.path.pieces_[0];
+          firebase.database().ref(a.path.pieces_[0]).update({
+            username: name
+          });
+          this.attemptLogin(name);
+          this.setState({
+            loggedInAsGuest: true
+          });
+        } 
+      );
+    });
+  }
 
   render() {
     return(
@@ -165,59 +193,62 @@ class App extends React.Component {
             </div>
           </header>
         </div> {/* End of Wrapper */}
-            { 
-              // Is the user logged in?
-              this.state.userIsLoggedIn
-                // Show them their list!
-                ? <List account={this.state.userRef} username={this.state.username} logoutCallback={this.logUserOut} />
-                // Show them the login/signup form -> Are they signing up?
-                : this.state.isSigningUp
-                    // Show them the signup form
-                    ? <div className="wrapper">
-                        <main>
-                          { 
-                            this.state.showError
-                              ? <ErrorMessage errorText={this.state.errorMessage} onEnd={this.hideError} />
-                              : null
-                          }
-                          <UserForm 
-                            action="Signup" 
-                            allowAction={this.state.talkingToFirebase} 
-                            callback={this.attemptSignup} 
-                            showError={this.showError} 
-                          >
-                            <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
-                              Already a user?
-                            </button>
-                          </UserForm>
-                        </main>
-                    </div>
-                    // Show them the login form
-                    : <div className="wrapper">
-                        <main>
-                          { 
-                            this.state.showError
-                              ? <ErrorMessage errorText={this.state.errorMessage} onEnd={this.hideError} />
-                              : null
-                          }
-                          <UserForm 
-                            action="Login" 
-                            callback={this.attemptLogin}  
-                            showError={this.showError}
-                            allowAction={this.state.talkingToFirebase} 
-                          >
-                            <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
-                              Need an account?
-                            </button>
-                          </UserForm>
-                      </main>
-                    </div>
-            }
+        { 
+          // Is the user logged in?
+          this.state.userIsLoggedIn
+            // Show them their list!
+            ? <List account={this.state.userRef} username={this.state.username} logoutCallback={this.logUserOut} />
+            // Show them the login/signup form -> Are they signing up?
+            : this.state.isSigningUp
+                // Show them the signup form
+                ? <div className="wrapper">
+                    <main>
+                      { 
+                        this.state.showError
+                          ? <ErrorMessage errorText={this.state.errorMessage} onEnd={this.hideError} />
+                          : null
+                      }
+                      <UserForm 
+                        action="Signup" 
+                        allowAction={this.state.talkingToFirebase} 
+                        callback={this.attemptSignup} 
+                        showError={this.showError} 
+                      >
+                        <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
+                          Already a user?
+                        </button>
+                      </UserForm>
+                      <button className="guestLoginButton" onClick={this.loginAsGuest}>Continue as Guest</button>
+                    </main>
+                </div>  /* End of Wrapper */
+                // Show them the login form
+                : <div className="wrapper">
+                    <main>
+                      { 
+                        this.state.showError
+                          ? <ErrorMessage errorText={this.state.errorMessage} onEnd={this.hideError} />
+                          : null
+                      }
+                      <UserForm 
+                        action="Login" 
+                        callback={this.attemptLogin}  
+                        showError={this.showError}
+                        allowAction={this.state.talkingToFirebase} 
+                      >
+                        <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
+                          Need an account?
+                        </button>
+                      </UserForm>
+                      <button className="guestLoginButton" onClick={this.loginAsGuest}>Continue as Guest</button>
+                  </main>
+                </div> /* End of Wrapper */
+        }
+        {/* Start of Wrapper */}
         <div className="wrapper">
           <footer>
               <p>mikosramek © 2019</p>
           </footer>
-        </div>
+        </div>  {/* End of Wrapper */}
 
        
       </div> /* End of App div */

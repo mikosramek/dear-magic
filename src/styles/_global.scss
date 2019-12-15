@@ -65,6 +65,9 @@ h3 {
   max-width: 1080px;
   width: 90%;
   margin: 0 auto;
+  @include media($second-break){
+    width: 100%;
+  }
 }
 .wrapper {
   max-width: 1080px;
@@ -99,7 +102,7 @@ input {
   }
 }
 input:focus + span {
-  width: 60%;
+  width: 70%;
 }
 .newCardDiv input:focus + span,
 .cardFilterPanel input:focus + span {
