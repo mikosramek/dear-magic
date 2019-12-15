@@ -25,8 +25,10 @@ class ConfirmationButton extends React.Component {
           this.state.isConfirming 
             ? <>
                 <p>{this.props.confirmationMessage}</p>
-                <button onClick={this.confirmAction} className={`confirmClearButton ${this.state.isConfirming ? 'show' : ''}`}><i className="fas fa-check-circle" aria-label="Confirm clearing bought cards."></i></button>
-                <button onClick={this.toggleIsConfirming}><i className="fas fa-times-circle" aria-label="Cancel clearing bought cards."></i></button>
+                <div>
+                  <button onClick={this.confirmAction} className={`confirmClearButton ${this.state.isConfirming ? 'show' : ''}`}><i className="fas fa-check-circle" aria-label="Confirm clearing bought cards."></i></button>
+                  <button onClick={this.toggleIsConfirming}><i className="fas fa-times-circle" aria-label="Cancel clearing bought cards."></i></button>
+                </div>
               </>
             : <button onClick={this.toggleIsConfirming}>{this.props.action}</button>
         }

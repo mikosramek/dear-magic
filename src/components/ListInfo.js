@@ -114,8 +114,10 @@ class ListInfo extends React.Component {
         <button className="updatePricesButton" onClick={this.queryCardPrices} disabled={this.state.updatingPrices}>
           <i className={`fas fa-sync-alt ${this.state.updatingPrices ? 'updating' : ''}`} aria-label="Update card prices."></i>
         </button>
-        <ConfirmationButton action="Clear Bought" confirmationMessage="Clear bought cards?" confirmAction={this.props.removeBoughtCards} />
-        <ConfirmationButton action="Clear All" confirmationMessage="Clear all cards?" confirmAction={this.props.removeAllCards} />
+        <div>
+          <ConfirmationButton action="Clear Bought" confirmationMessage="Clear bought cards?" confirmAction={this.props.removeBoughtCards} />
+          <ConfirmationButton action="Clear All" confirmationMessage="Clear all cards?" confirmAction={this.props.removeAllCards} />
+        </div>
       </div>
     );
   }

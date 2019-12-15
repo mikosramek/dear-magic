@@ -121,25 +121,21 @@
 .menuItem {
   transition: transform 0.35s;
 }
-.menuItem.shift {
+
+.menuItem0.shift {
   &~.menuItem {
     transform: translateY(170px);
   }
-  &+.menuItem.shift+.menuItem {
-    transform: translateY(340px);
-  }
-  .menuItemButton {
-    transform: scale(1.1) rotate(90deg);
+  &~.menuItem1.shift~.menuItem {
+    transform: translateY(255px);
   }
 }
-.menuItem:nth-of-type(1) {
-  .menuItemBacking.show {
-    width: 300px;
-  }
-  .menuItemContent {
-    width: 300px;
+.menuItem1.shift {
+  &~.menuItem {
+    transform: translateY(85px);
   }
 }
+
 .menuItem:nth-of-type(2) {
   top: 60px;
 }
@@ -179,13 +175,19 @@
   transition: width 0.35s, height 0.35s, background 0.35s, top 0.35s, right 0.35s, border-radius 0.35s;
   z-index: 10;
   &.show {
-    width: 400px;
+    width: 300px;
     height: 220px;
   }
 }
+.menuItem1 {
+  .menuItemBacking.show {
+    height: 135px;
+  }
+}
 .menuItemContent {
-  width: 400px;
+  width: 300px;
   height: 220px;
+  padding: 20px; 
 
   position: absolute;
   right:0;
@@ -209,15 +211,15 @@
     z-index: 15;
     transition: opacity 0.35s 0.15s, top 0.35s, right 0.35s;
   }
+  button {
+    width: 90%;
+    padding: 10px 0;
+    margin: 10px 0;
+  }
 }
 .newCardForm {  
-  padding: 20px; 
-
   display: flex;
   flex-direction: column;
-
-  position: relative;
-
   label {
     width: 100%;
     display: block;
@@ -228,11 +230,7 @@
     width: 90%;
     padding: 10px 15px;
   }
-  button {
-    width: 90%;
-    padding: 10px 0;
-    margin: 10px 0;
-  }
+  
   p {
     text-align: center;
   }
@@ -246,5 +244,62 @@
   }
   .userWarning p{
     background-color: #FFFCF0;
+  }
+}
+.listInfoPanel {
+  height: 100%;
+  position: relative;
+  h3 {
+    font-size: 2rem;
+  }
+  div {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    margin-top: 5px;
+  }
+  .updatePricesButton {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+  }
+  .clearBoughtButton {
+    flex-basis: 50%;
+    position: relative;
+    p {
+      // position: absolute;
+      // top: -10px;
+      margin: 0;
+    }
+    button {
+      width: calc(100%);
+      margin: 0 5px;
+    }
+  }
+  .clearBoughtConfirming{
+    position: absolute;
+    left: 0;
+    z-index: 2;
+    background-color: $off-white;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    text-align: center;
+    p {
+      width: 50%;
+      align-self: center;
+    }
+    div {
+      margin: 0;
+      width: 50%;
+    }
+    button {
+      width: calc(50% - 10px);
+      margin: 0 5px;
+    }
   }
 }
