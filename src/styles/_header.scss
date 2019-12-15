@@ -1,0 +1,36 @@
+header {
+  padding: 25px 0;
+  background-color: $primary-color;
+  border-bottom: 2px dashed $off-black;
+  position: relative;
+}
+
+h1 {
+  margin: 0;
+  padding: 10px 0px;
+
+  font-size: 3.8rem;
+  font-family: 'Beth Ellen', cursive;
+
+  position: relative;
+  z-index: 2;
+  @include media($final-break){
+    font-size: 3rem;
+  }
+}
+
+.logo {
+  width: 100px;
+
+  position: absolute;
+  top: -15px;
+  left: -25px;
+
+  z-index: 1;
+  @include media($first-break){
+    left: -15px;
+  }
+  @include media($final-break){
+    width: 80px;
+  }
+}

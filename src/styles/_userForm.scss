@@ -1,0 +1,63 @@
+.userForm {
+  width: 50%;
+  max-width: 400px;
+
+  margin: 0 auto;
+  padding: 50px 0 25px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-size: 2.2rem;
+  position: relative;
+  @include media($second-break){
+    width: 90%;
+  }
+  label {
+    width: 70%;
+    text-align: left;
+  }
+  input {
+    width: 70%;
+    padding: 15px 5px;
+    padding-left: 30px;
+  }
+  button {
+    width: 50%;
+    padding: 15px 5px;
+    margin: 25px 0;  
+  }
+}
+.userWarning {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+
+  color: $primary-accent;
+  opacity: 1;
+  transition: opacity 0.34s;
+
+  font-size: 2.2rem;
+  text-align: center;
+  p {
+    background-color: $primary-color;
+    border-radius: 25px;
+  }
+}
+.userWarningHidden {
+  opacity: 0;
+}
+.formDivider {
+  height:1px;
+  width: 90%;
+  padding-top: 50px;
+  border-bottom: 2px dashed $off-black;
+}
+.guestLoginButton {
+  margin: 0 auto;
+  display: block;
+  padding: 10px 5px;
+  width: 150px;
+  border-radius: 0;
+}

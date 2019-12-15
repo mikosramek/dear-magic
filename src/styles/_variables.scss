@@ -1,0 +1,26 @@
+
+// $Almost-Black: #3B3B3B;
+// $Off-White: #FFFCF0;
+// $Primary: #F5EDD2;
+// $Secondary: #F7F0DB;
+// $Emphasis: #CED1B9;
+// $Call-to-Action: #C88080;
+
+$primary-color: #F5EDD2;
+$primary-accent: #C88080;
+$primary-input: #CED1B9;
+
+$off-black: #3B3B3B;
+$off-white: #FFFCF0;
+
+$primary-black: #000;
+$primary-white: #fff;
+
+$translucentBlack: transparentize($primary-black, 0.4);
+
+$font-serif: serif;
+$font-sans-serif: 'Patrick Hand', sans-serif;
+
+$first-break: 900px;
+$second-break: 630px;
+$final-break: 420px;

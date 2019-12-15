@@ -1,0 +1,115 @@
+img { display: block; max-width: 100%; }
+html { font-size: 62.5%; }
+a, a:visited { text-decoration: none; color: inherit }
+ul { list-style: none; padding: 0;}
+
+@import url('https://fonts.googleapis.com/css?family=Beth+Ellen|Patrick+Hand|Walter+Turncoat&display=swap');
+body, button, input {
+  font-family: $font-sans-serif;
+}
+body {
+  background-color: $off-white;
+  color: $off-black;
+}
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 100px;
+
+  background-color: $primary-accent;
+  color: $off-black;
+
+  font-size: 1.8rem;
+  &:hover,
+  &:focus {
+    background-color: lighten($primary-accent, 5);
+  }
+  &:active,
+  &:disabled {
+    background-color: darken($primary-accent, 10);
+  }
+}
+input {
+  border: none;
+  background-color: $primary-input;
+  text-align: left;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+h2 {
+  padding-top: 10px;
+  padding-left: 105px;
+  margin: 0;
+
+  font-size: 2.2rem;
+  @include media($final-break){
+    font-size: 2rem;
+    padding-left: 70px;
+  }
+}
+
+h3 {
+  font-size: 2.8rem;
+  margin: 0;
+  @include media($final-break){
+    font-size: 2rem;
+  }
+}
+.appParent {
+  min-height: 100vh;
+  background-color: $primary-color;
+  max-width: 1080px;
+  width: 90%;
+  margin: 0 auto;
+  @include media($second-break){
+    width: 100%;
+  }
+}
+.wrapper {
+  max-width: 1080px;
+  width: 100%;
+
+  margin: 0 auto;
+
+  background-color: $primary-color;
+  @include media($second-break){
+    width:100%;
+  }
+}
+
+.innerWrapper {
+  margin: 0 100px;
+  position: relative;
+  @include media($first-break){
+    margin: 0 25px;
+  }
+}
+
+input {
+  & + span {
+    width: 0%;
+    position: relative;
+    display: block;
+    bottom: 2px;
+    left: 1px;
+
+    border-bottom: 2px dashed $off-black;
+    transition: all 0.5s;
+  }
+}
+input:focus + span {
+  width: 70%;
+}
+.newCardDiv input:focus + span,
+.cardFilterPanel input:focus + span {
+
+  width: 89%;
+}
+
+.rotate45 {
+  transform: rotate(45deg);
+}

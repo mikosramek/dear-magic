@@ -1,8 +1,5 @@
 import React from 'react';
 
-
-import x from './assets/x.svg';
-
 class LoginForm extends React.Component {
   constructor() {
     super();
@@ -47,7 +44,6 @@ class LoginForm extends React.Component {
         {/* After element for underline */}
         <span></span>
         
-        <img src={x} alt="An x indicating where to put your username." />
         <button disabled={this.props.allowAction}>{this.props.action}</button>
         <span className="formDivider"></span>
         {
