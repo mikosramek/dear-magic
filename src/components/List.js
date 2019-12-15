@@ -20,6 +20,7 @@ class List extends React.Component {
     this.state = {
       cards:[],
       filteredCards: [],
+      isMobileMenuShowing: false,
     }
   }
   componentDidMount() {
@@ -139,43 +140,56 @@ class List extends React.Component {
       filteredCards: newCardArray
     })
   }  
+
   
   render() {
     return(
-      <div className="innerWrapper">
-        <h3>Hi, {this.props.username}! Here is your list:</h3>
-
-        <ul className="menuItemList">
-          <MenuItem icon="fas fa-times rotate45" action="Add a card" position={0}>
-              <NewCardForm addNewCard={this.addNewCard} />
-          </MenuItem>
-          <MenuItem icon="fas fa-receipt" action="Summary" position={1}>
-            <ListInfo cards={this.state.cards}  updateCardPrices={this.updateCardPrices} removeBoughtCards={this.removeBoughtCards} removeAllCards={this.removeAllCards} />
-          </MenuItem>
-          <MenuItem icon="fas fa-filter" action="Filter your list" position={2}>
-            <CardFilterForm filterCards={this.filterCards} />
-          </MenuItem>
-        </ul>
-
-        <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
-       
-        {/* Start of Card List */}
-        <ul className="cardList">
-          {
-            //Are there card and more than 0 cards?
-            this.state.filteredCards !== undefined && this.state.filteredCards.length > 0
-              //Map through them!
-              ? this.state.filteredCards.map((item, index) => {
-                return(
-                  <Card key={index} checkOff={() => this.updateCardToBought(index)} card={item}/>
-                )
-              })
-              //Show a placeholder message!
-              : <li className="placeholderCard">Add cards by pressing the + button!</li>
-          }
-        </ul> {/* End of Card List */}
-        
-      </div> /* End of Inner Wrapper */
+      <div>
+        <nav>
+          <button className="mobileMenuToggle" onClick={() => {this.setState({isMobileMenuShowing: !this.state.isMobileMenuShowing})}}>
+            <span className={`${this.state.isMobileMenuShowing ? 'open' : ''}`}></span>
+            <span className={`${this.state.isMobileMenuShowing ? 'open' : ''}`}></span>
+            <span className={`${this.state.isMobileMenuShowing ? 'open' : ''}`}></span>
+          </button>
+          <ul className={`menuItemList ${this.state.isMobileMenuShowing ? 'expand' : ''}`}>
+            <MenuItem icon="fas fa-times rotate45" action="Add a card" position={0}>
+                <NewCardForm addNewCard={this.addNewCard} />
+            </MenuItem>
+            <MenuItem icon="fas fa-receipt" action="Summary" position={1}>
+              <ListInfo cards={this.state.cards}  updateCardPrices={this.updateCardPrices} removeBoughtCards={this.removeBoughtCards} removeAllCards={this.removeAllCards} />
+            </MenuItem>
+            <MenuItem icon="fas fa-filter" action="Filter your list" position={2}>
+              <CardFilterForm filterCards={this.filterCards} />
+            </MenuItem>
+          </ul>
+        </nav>
+        <main>
+          <div className="innerWrapper">
+            <h3>Hi, {this.props.username}! Here is your list:</h3>
+    
+            
+    
+            <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
+           
+            {/* Start of Card List */}
+            <ul className="cardList">
+              {
+                //Are there card and more than 0 cards?
+                this.state.filteredCards !== undefined && this.state.filteredCards.length > 0
+                  //Map through them!
+                  ? this.state.filteredCards.map((item, index) => {
+                    return(
+                      <Card key={index} checkOff={() => this.updateCardToBought(index)} card={item}/>
+                    )
+                  })
+                  //Show a placeholder message!
+                  : <li className="placeholderCard">Add cards by pressing the + button!</li>
+              }
+            </ul> {/* End of Card List */}
+            
+          </div> {/* End of Inner Wrapper */}
+        </main>
+      </div>
     );
   }
 };

@@ -154,7 +154,7 @@ class App extends React.Component {
 
   render() {
     return(
-      <div>
+      <div className="appParent">
         {/* Start of Wrapper */}
         <div className="wrapper">
           <header>
@@ -164,13 +164,7 @@ class App extends React.Component {
               <h2>A personal buylist for <span>Magic: The Gathering</span></h2>
             </div>
           </header>
-
-          <main>
-            { 
-              this.state.showError
-                ? <ErrorMessage errorText={this.state.errorMessage} onEnd={this.hideError} />
-                : null
-            }
+        </div> {/* End of Wrapper */}
             { 
               // Is the user logged in?
               this.state.userIsLoggedIn
@@ -179,35 +173,53 @@ class App extends React.Component {
                 // Show them the login/signup form -> Are they signing up?
                 : this.state.isSigningUp
                     // Show them the signup form
-                    ? <UserForm 
-                        action="Signup" 
-                        allowAction={this.state.talkingToFirebase} 
-                        callback={this.attemptSignup} 
-                        showError={this.showError} 
-                      >
-                        <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
-                          Already a user?
-                        </button>
-                      </UserForm>
+                    ? <div className="wrapper">
+                        <main>
+                          { 
+                            this.state.showError
+                              ? <ErrorMessage errorText={this.state.errorMessage} onEnd={this.hideError} />
+                              : null
+                          }
+                          <UserForm 
+                            action="Signup" 
+                            allowAction={this.state.talkingToFirebase} 
+                            callback={this.attemptSignup} 
+                            showError={this.showError} 
+                          >
+                            <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
+                              Already a user?
+                            </button>
+                          </UserForm>
+                        </main>
+                    </div>
                     // Show them the login form
-                    : <UserForm 
-                        action="Login" 
-                        callback={this.attemptLogin}  
-                        showError={this.showError}
-                        allowAction={this.state.talkingToFirebase} 
-                      >
-                        <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
-                          Need an account?
-                        </button>
-                      </UserForm>
+                    : <div className="wrapper">
+                        <main>
+                          { 
+                            this.state.showError
+                              ? <ErrorMessage errorText={this.state.errorMessage} onEnd={this.hideError} />
+                              : null
+                          }
+                          <UserForm 
+                            action="Login" 
+                            callback={this.attemptLogin}  
+                            showError={this.showError}
+                            allowAction={this.state.talkingToFirebase} 
+                          >
+                            <button type="button" onClick={this.swapIsSigningUp} className="userActionSwapButton">
+                              Need an account?
+                            </button>
+                          </UserForm>
+                      </main>
+                    </div>
             }
-          </main>
+        <div className="wrapper">
+          <footer>
+              <p>mikosramek © 2019</p>
+          </footer>
+        </div>
 
-        <footer>
-            <p>mikosramek © 2019</p>
-        </footer>
-
-        </div> {/* End of Wrapper */}
+       
       </div> /* End of App div */
     );
   }

@@ -109,14 +109,83 @@
   text-align: center;
   margin-left: 10px;
 }
-
+.mobileMenuToggle {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  height: 40px;
+  width: 40px;
+  z-index: 100;
+  background-color: $primary-accent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+.mobileMenuToggle span {
+  background-color: #000;
+  display: block;
+  width: 100%;
+  height: 4px;
+  margin: 3px 0;
+  transition: all 0.35s, opacity 0.1s;
+  &:first-of-type {
+    width: 80%;
+    &.open {
+      width: 100%;
+      transform: rotate(45deg) translate(7px, 7px);
+    }
+  }
+  &:nth-of-type(2) {
+    width: 90%;
+    &.open {
+      opacity: 0;
+    }
+  }
+  &:last-of-type {
+    &.open {
+      
+      transform: rotate(-45deg)  translate(7px, -7px);
+    }
+  }
+}
 .menuItemList {
   z-index: 10;
   position: fixed;
   right: calc(5% + 20px);
   top: 10px;
   @include media($second-break){
-    right: 25px;
+    background-color: $off-white;
+    margin: 0;
+    right: -300px;
+    top: 0;
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: right 0.35s;
+    &.expand {
+      right: 0;
+    }
+    .menuItem {
+      width: 100%;
+    }
+    .menuItemBacking {
+      position: static;
+      width: 100%;
+    }
+    .menuItemContent {
+      top: 10px;
+    }
+    .menuItemButton {
+      top: -5px;
+      left: 0;
+    }
+    .menuItem0 {
+      z-index: 30;
+    }
   }
   .menuItem {
     position: relative;
@@ -125,26 +194,44 @@
     transition: transform 0.35s;
     &.shift .menuItemButton {
       transform: rotate(45deg) scale(1.2);
+      @include media($second-break){
+        transform: none;
+      }
     }
   }
   .menuItem0.shift {
     &~.menuItem {
       transform: translateY(170px);
+      @include media($second-break){
+        transform: none;
+      }
     }
     &~.menuItem1.shift~.menuItem {
       transform: translateY(255px);
+      @include media($second-break){
+        transform: none;
+      }
     }
   }
   .menuItem1.shift {
     &~.menuItem {
       transform: translateY(85px);
+      @include media($second-break){
+        transform: none;
+      }
     }
   }
   .menuItem:nth-of-type(2) {
     top: 60px;
+    @include media($second-break){
+      top: 0;
+    }
   }
   .menuItem:nth-of-type(3) {
     top: 120px;
+    @include media($second-break){
+      top: 0;
+    }
   }
 }
 
@@ -164,6 +251,9 @@
   &:hover {
     background-color: $off-white;
     transform: scale(1.1) rotate(22.5deg);
+    @include media($second-break){
+      transform: none;
+    }
   }
 }
 .menuItemBacking {
@@ -176,12 +266,22 @@
   background-color: $off-white;
   transition: width 0.35s, height 0.35s, background 0.35s, top 0.35s, right 0.35s, border-radius 0.35s;
   z-index: 10;
+  @include media($second-break){
+    width: 300px;
+    height: 220px;
+  }
   &.show {
     width: 300px;
     height: 220px;
   }
 }
 .menuItem1 {
+  @include media($second-break){
+    .menuItemContent,
+    .menuItemBacking {
+      height: 135px;
+    }
+  }
   .menuItemContent.show {
     height: 135px;
   }
@@ -190,6 +290,9 @@
   }
 }
 .menuItem2 {
+  @include media($second-break){
+    height: 205px;
+  }
   .menuItemContent.show {
     height: 205px;
   }
@@ -213,6 +316,11 @@
   justify-content: center;
   align-content: center;
   transition: opacity 0s 0s, visibility 0s 0.35s;
+  @include media($second-break){
+    opacity: 1;
+    visibility: visible;
+    z-index: 15;
+  }
   &.show {
     opacity: 1;
     visibility: visible;
@@ -232,7 +340,7 @@
   position: absolute;
   top: 82px;
   height: 37px;
-  z-index: 15;
+  z-index: 20;
 }
 .newCardForm {  
   display: flex;

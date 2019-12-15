@@ -23,7 +23,7 @@ class CardFilterForm extends React.Component {
       const filter = new RegExp(input, "i");
       const pSets = [];
       for(let set in cardSets){
-        if((filter.test(cardSets[set]) || filter.test(set)) && pSets.length < 10){
+        if((filter.test(cardSets[set]) || filter.test(set)) && pSets.length < 6){
           pSets.push({abr: set, fullName: cardSets[set]});
         }
       }
