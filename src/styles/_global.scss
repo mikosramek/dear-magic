@@ -78,6 +78,7 @@ input {
   & + span {
     width: 0%;
     position: relative;
+    display: block;
     bottom: 2px;
     left: 1px;
 
@@ -90,5 +91,6 @@ input:focus + span {
 }
 .newCardDiv input:focus + span,
 .cardFilterPanel input:focus + span {
-  width: 100%;
+
+  width: 89%;
 }
