@@ -21,7 +21,6 @@ class List extends React.Component {
       cards:[],
       filteredCards: [],
     }
-    
   }
   componentDidMount() {
     const userRef = firebase.database().ref(this.props.account);
@@ -147,7 +146,7 @@ class List extends React.Component {
         <h3>Hi, {this.props.username}! Here is your list:</h3>
 
         <ul className="menuItemList">
-          <MenuItem icon="fas fa-times" action="Add a card" position={0}>
+          <MenuItem icon="fas fa-times rotate45" action="Add a card" position={0}>
               <NewCardForm addNewCard={this.addNewCard} />
           </MenuItem>
           <MenuItem icon="fas fa-receipt" action="Summary" position={1}>

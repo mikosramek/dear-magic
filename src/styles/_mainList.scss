@@ -160,7 +160,7 @@
   background: none;
   color: #3B3B3B;
   font-size: 2rem;
-  transform: rotate(45deg);
+  transform: rotate(0deg);
 
   transition: transform 0.35s;
   &:hover {
@@ -243,9 +243,6 @@
     top: 82px;
     height: 37px;
     z-index: 15;
-  }
-  .cardSuggestion:nth-last-of-type(2) {
-    border-radius: 0px 0px 25px 25px;
   }
   .userWarning p{
     background-color: #FFFCF0;

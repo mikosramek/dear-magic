@@ -34,6 +34,24 @@ class ListInfo extends React.Component {
       return info;
     }
   }
+  getCardInformation = () => {
+    const info = {};
+    info.total = 0;
+    info.quantity = 0;
+    if(this.props.cards !== undefined) {
+      this.props.cards.forEach((card) => {
+        if(card.prices.usd !== undefined){
+          info.total += parseFloat(card.prices.usd) * card.quantity;
+        }else if(card.prices.usd_foil !== undefined) {
+          info.total += parseFloat(card.prices.usd_foil) * card.quantity;
+        }
+        info.quantity += parseInt(card.quantity);
+      });
+    }
+    info.total = info.total.toLocaleString();
+    info.quantity = info.quantity.toLocaleString();
+    return info;
+  }
   queryCardPrices = () => {
     if(!this.state.updatingPrices) {
       this.setState({
@@ -88,18 +106,11 @@ class ListInfo extends React.Component {
     })
   }
   render() {
+    const info = this.getCardInformation();
     return(
       <div className="listInfoPanel">
-        {
-          this.getTotals().map((info, index) => {
-            return (
-              <div key={'info' + index}>
-                <h3>{info.text}</h3>
-                <p>{info.number}</p>
-              </div>
-            )
-          })
-        }
+        <h3>Total Price: ${info.total} USD</h3>
+        <h3>Number of Cards: {info.quantity}</h3>
         <button className="updatePricesButton" onClick={this.queryCardPrices} disabled={this.state.updatingPrices}>
           <i className={`fas fa-sync-alt ${this.state.updatingPrices ? 'updating' : ''}`} aria-label="Update card prices."></i>
         </button>
