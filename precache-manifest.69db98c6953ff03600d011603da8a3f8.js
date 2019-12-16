@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "340e198d62ea339db6c8e4477abfd531",
+    "revision": "8d9734ca6aa6048d1c08947589000aa9",
     "url": "/dear-magic/index.html"
   },
   {
-    "revision": "9707fa7f845fe35ccd06",
-    "url": "/dear-magic/static/css/main.7e7d182e.chunk.css"
+    "revision": "cebba0f6275c842f886b",
+    "url": "/dear-magic/static/css/main.45ad5845.chunk.css"
   },
   {
     "revision": "a58c81e006cb9bc3a310",
     "url": "/dear-magic/static/js/2.9d4fbb6b.chunk.js"
   },
   {
-    "revision": "9707fa7f845fe35ccd06",
-    "url": "/dear-magic/static/js/main.e77ddb4c.chunk.js"
+    "revision": "cebba0f6275c842f886b",
+    "url": "/dear-magic/static/js/main.40b7d19e.chunk.js"
   },
   {
     "revision": "e7bc6e0ee5cc514c8af3",
