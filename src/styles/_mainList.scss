@@ -185,7 +185,6 @@
     }
     .menuItem {
       width: 100%;
-      margin-bottom: 30px;
     }
     .menuItemBacking {
       position: static;
@@ -394,6 +393,9 @@
     width: 90%;
     margin-top: 5px;
   }
+  .updating {
+    animation: spin 2s infinite;
+  }
   .updatePricesButton {
     position: absolute;
     width: 30px;
@@ -435,6 +437,18 @@
       width: calc(50% - 10px);
       margin: 0 5px;
     }
+  }
+}
+
+@keyframes spin {
+  0%{
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 

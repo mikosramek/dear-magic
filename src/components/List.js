@@ -147,6 +147,7 @@ class List extends React.Component {
       <div>
         <nav>
           <button className="mobileMenuToggle" onClick={() => {this.setState({isMobileMenuShowing: !this.state.isMobileMenuShowing})}}>
+            <div className="visuallyhidden">Toggle the menu.</div>
             <span className={`${this.state.isMobileMenuShowing ? 'open' : ''}`}></span>
             <span className={`${this.state.isMobileMenuShowing ? 'open' : ''}`}></span>
             <span className={`${this.state.isMobileMenuShowing ? 'open' : ''}`}></span>
@@ -166,11 +167,7 @@ class List extends React.Component {
         <main>
           <div className="innerWrapper">
             <h3>Hi, {this.props.username}! Here is your list:</h3>
-    
-            
-    
             <button className="logoutButton" onClick={this.props.logoutCallback}>Log Out</button>
-           
             {/* Start of Card List */}
             <ul className="cardList">
               {

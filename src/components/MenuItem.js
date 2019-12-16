@@ -16,7 +16,7 @@ class MenuItem extends React.Component {
     return(
       <li className={`menuItem menuItem${this.props.position} ${this.state.showContents ? 'shift' : ''}`}>
         <button onClick={this.toggleShowContents} className={`menuItemButton ${this.state.showContents ? 'show' : ''}`}>
-          <i className={this.props.icon} aria-label={this.props.action}></i>
+          <i className={this.props.icon} aria-label={this.props.action}></i><span className="visuallyhidden">{this.props.action}</span>
         </button>
         <div>
           <div className={`menuItemBacking ${this.state.showContents ? 'show' : ''}`}>

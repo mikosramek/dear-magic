@@ -37,7 +37,7 @@ class Card extends React.Component {
 
   getPrice = (prices) => {
     const result = [];
-    if(prices.usd !== undefined){
+    if(prices !== undefined && prices.usd !== undefined){
       result.push("$"+prices.usd+" USD");
     } else {
       result.push("No price info found.");
@@ -59,12 +59,13 @@ class Card extends React.Component {
         	  onClick={this.props.checkOff}
         	  className = {`${bought ? 'bought ' : ''}cardName`}
         	>
-        	  <button>{bought ? <i className='far fa-check-square'></i> : <i className='far fa-square'></i>}</button> <span>{quantity}x {name}</span>
+        	  <button><span className="visuallyhidden">{`This card ${bought ? 'is':'is not'} bought.`}</span>{bought ? <i className='far fa-check-square'></i> : <i className='far fa-square'></i>}</button> <span>{quantity}x {name}</span>
             <i className={`ss ss-${latestSet.toLowerCase()} ss-${rarity.toLowerCase()}`}></i>
         	</ span>
           
         	<button className="showDescriptionButton" onClick={() => this.setState({expandDescription: !this.state.expandDescription})}>
-        	  <i className={`fas fa-chevron-${this.state.expandDescription ? 'up' : 'down'}`} aria-label={`Expand the description for ${name}`}></i>   
+          <span className="visuallyhidden">{`Expand the description for ${name}`}</span>
+        	  <i className={`fas fa-chevron-${this.state.expandDescription ? 'up' : 'down'}`}></i>   
         	</ button>
 
         </div> {/* End of Card Header Div */}

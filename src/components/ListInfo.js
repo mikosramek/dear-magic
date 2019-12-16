@@ -40,9 +40,9 @@ class ListInfo extends React.Component {
     info.quantity = 0;
     if(this.props.cards !== undefined) {
       this.props.cards.forEach((card) => {
-        if(card.prices.usd !== undefined){
+        if(card.prices !== undefined && card.prices.usd !== undefined){
           info.total += parseFloat(card.prices.usd) * card.quantity;
-        }else if(card.prices.usd_foil !== undefined) {
+        }else if(card.prices !== undefined && card.prices.usd_foil !== undefined) {
           info.total += parseFloat(card.prices.usd_foil) * card.quantity;
         }
         info.quantity += parseInt(card.quantity);
@@ -112,6 +112,7 @@ class ListInfo extends React.Component {
         <h3>Total Price: ${info.total} USD</h3>
         <h3>Number of Cards: {info.quantity}</h3>
         <button className="updatePricesButton" onClick={this.queryCardPrices} disabled={this.state.updatingPrices}>
+          <span className="visuallyhidden">Update the prices of your card list.</span>
           <i className={`fas fa-sync-alt ${this.state.updatingPrices ? 'updating' : ''}`} aria-label="Update card prices."></i>
         </button>
         <div>
