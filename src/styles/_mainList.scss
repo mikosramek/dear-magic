@@ -1,10 +1,10 @@
 .logoutButton {
   position: absolute;
-  bottom: -60px;
+  top: 0px;
   right: 0;
   padding: 10px;
   @include media($first-break) {
-    // right: 90px;
+    right: 90px;
   }
 }
 

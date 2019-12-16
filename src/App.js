@@ -25,8 +25,7 @@ class App extends React.Component {
       userRef: '',
       username: '',
       showError: false,
-      errorMessage: '',
-      loggedInAsGuest: false
+      errorMessage: ''
     }
   }
   componentDidMount() {
@@ -153,31 +152,9 @@ class App extends React.Component {
 
   loginAsGuest = () => {
     this.setState({
-      talkingToFirebase: true,
-      loggedInAsGuest: false
+      talkingToFirebase: true
     });
-    const dbRef = firebase.database().ref();
-    dbRef.once('value', (db) => {
-      const userbase = db.val();
-      const numberOfUsers = Object.keys(userbase).length;
-      const guestUserName = 'guest' + numberOfUsers;
-      const newGuestUser = {
-        username: guestUserName,
-        guestAccount: true,
-      }
-      const ref = dbRef.push(newGuestUser);
-      ref.then((a) => {
-          const name = 'guest' + a.path.pieces_[0];
-          firebase.database().ref(a.path.pieces_[0]).update({
-            username: name
-          });
-          this.attemptLogin(name);
-          this.setState({
-            loggedInAsGuest: true
-          });
-        } 
-      );
-    });
+    this.attemptLogin('guest');
   }
 
   render() {
